@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <title>Cup&Cake</title>
+  <meta charset="UTF-8">
+  <meta name="keywords" content="торт, пирожное, десерт, сладости">
+  <link href="../css/site.css" rel="stylesheet">
+  <link href="../css/scaling.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Noto+Sans&family=Podkova:wght@600&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="../images/cake_logo.png" type="image/png">
+  <script src="../scripts/page_load_time.js"></script>
+</head>
+<body>
+<header>
+  <div class="container">
+    <div class="small-contact">
+      <div class="dropdown">
+        <button><img class="drop-btn" src="../images/menu.png" alt="Меню"></button>
+        <div class="dropdown-content">
+          <a href="catalog.html">Каталог</a>
+          <a href="constructor.html">Конструктор десертов</a>
+          <a href="../index.html#delivery">Доставка</a>
+          <a href="##catalog-contacts">Контакты</a>
+        </div>
+      </div>
+      <a href="tel:88008888088"><img class="icons" src="../images/ringer.png" alt="Телефон"></a>
+    </div>
+    <div class="big-contact">
+      <strong><a href="tel:88008888088"><img class="text-icon" src="../images/ringer.png" alt="Телефон">8-800-888-80-88</a></strong>
+      <br>
+      <small>принимаем заказы с 9:00 до 19:00</small>
+    </div>
+    <h1><img id="cup-logo" src="../images/cup_logo.png" alt="Cup"><a href="../index.html">Cup&Cake</a><img id="cake-logo" src="../images/cake_logo.png" alt="Cupcake"></h1>
+    <div class="small-icons">
+      <a href="#"><img class="small-icon" src="../images/search.png" alt="Поиск"></a>
+      <div class="dropdown">
+        <button><a href="#"><img class="small-icon" src="../images/user.png" alt="Меню"></a></button>
+        <div class="dropdown-content">
+          <a href="#"><img class="dropdown-icons" src="../images/heart.png" alt="Сердце"></a>
+          <a href="#"><img class="dropdown-icons" src="../images/basket.png" alt="Корзина"></a>
+        </div>
+      </div>
+    </div>
+    <div class="big-icons">
+      <a href="#"><img class="icons" src="../images/basket.png" alt="Корзина"></a>
+      <a href="#"><img class="icons" src="../images/heart.png" alt="Сердце"></a>
+      <a href="#"><img class="icons" src="../images/user.png" alt="Пользователь"></a>
+      <a href="#"><img class="icons" src="../images/search.png" alt="Поиск"></a>
+    </div>
+  </div>
+  <nav class="navbar">
+    <ul>
+      <li><a href="catalog.html">Каталог</a></li>
+      <li><a href="constructor.html">Конструктор десертов</a></li>
+      <li><a href="../index.html#delivery">Доставка</a></li>
+      <li><a href="##catalog-contacts">Контакты</a></li>
+    </ul>
+  </nav>
+</header>
+<main>
+  <div id="user-container">
+    <template id="user-template">
+      <p class="user-info"></p>
+      <p class="user-info"></p>
+      <p class="user-info"></p>
+      <p class="user-info"></p>
+      <p class="user-info"></p>
+    </template>
+    <template id="error-template">
+      <p>Кажется вам не удалось войти...</p>
+    </template>
+  </div>
+</main>
+<footer>
+  <div id="#catalog-contacts">
+    <div class="left-contact">
+      <h3>Контактная информация</h3>
+      <a href="tel:88008888088" class="contact-side"><img class="text-icon" src="../images/ringer_violet.png" alt="Звонок"><strong>8-800-888-80-88</strong></a>
+      <span class="contact-side"><img class="text-icon" src="../images/address.png" alt="Адрес">Санкт-Петербург, Кронверский пр-кт, 20</span>
+      <p id="timestamp"></p>
+    </div>
+    <div class="right-icons">
+      <a href="mailto:cup-and-cake@mail.ru"><img class="icons" src="../images/mail.png" alt="Почта"></a>
+      <a href="https://t.me/cup-and-cake"><img class="telegram" src="../images/telegram.png" alt="Телеграм"></a>
+      <a href="https://vk.com/cup-and-cake"><img class="icons" src="../images/vk.png" alt="Вконтакте"></a>
+    </div>
+  </div>
+</footer>
+<script src="../scripts/constructor.js"></script>
+<script type="text/javascript" src="../scripts/account.js"></script>
+</body>
+</html>

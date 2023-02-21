@@ -1,0 +1,494 @@
+@media screen and (max-width: 600px) {
+    .body{
+        font-size: 15px;
+    }
+    .container{
+        height: 9vw;
+    }
+    h1 {
+        padding: 0.5vh 0;
+        font-size: 6vw;
+    }
+    h2{
+        font-size: 20px;
+    }
+    h3{
+        font-size: 18px;
+    }
+    h4{
+        font-size: 15px;
+    }
+    .big-contact{
+        display: none;
+    }
+    .drop-btn{
+        padding: 2px 0;
+        width: calc(20px + 3vw);
+    }
+    .dropdown-content a {
+        font-size: 17px;
+    }
+    .navbar{
+        display: none;
+    }
+    header .icons{
+        width: calc(18px + 3vw);
+        padding: 7px 2px;
+    }
+    .big-icons{
+        display: none;
+    }
+    .dropdown-icons{
+        width: calc(15px + 2vw);
+    }
+    .small-icon{
+        width: calc(18px + 3vw);
+        padding: 3px 4px 0 0;
+    }
+    .img-container{
+        display: none;
+    }
+    .category-container{
+        width: 90%;
+        margin: 1.5%;
+    }
+    .item-category-text {
+        font-size: 18px;
+    }
+    .product-wrap {
+        width: 80%;
+        margin: 3% 7%;
+    }
+    .product-wrap button{
+        font-size: 10px;
+    }
+    footer .icons{
+         width: 40px;
+     }
+    .telegram{
+        width: 33px;
+    }
+    .right-icons{
+        margin: 70px 10px 20px;
+    }
+    #contacts-side{
+        display: none;
+    }
+    .catalog-menu {
+        width: 25%;
+        margin: 2%;
+    }
+    .catalog-items{
+        width: 70%;
+    }
+    .catalog-product-wrap{
+        width: 80%;
+        margin: 3% 2%;
+    }
+    .catalog-product-wrap button{
+        font-size: 10px;
+    }
+    .form{
+        font-size: 17px;
+    }
+    .text-1{
+        font-size: 19px;
+    }
+    .constructor-grid {
+        width: 85%;
+        margin: 2% 7% 2% 4%;
+        font-size: 15px;
+    }
+}
+
+@media screen and (min-width: 600px) and (max-width: 800px){
+    .body{
+        font-size: 16px;
+    }
+    .container{
+        height: 45px;
+    }
+    h1 {
+        font-size: 35px;
+    }
+    h2{
+        font-size: 25px;
+    }
+    h3{
+        font-size: 20px;
+    }
+    h4 {
+        font-size: 17px;
+    }
+    .big-contact{
+         display: none;
+     }
+    .drop-btn{
+        padding: 2px 0;
+        width: 32px;
+    }
+    .dropdown-content a {
+        font-size: 18px;
+    }
+    .navbar{
+        display: none;
+    }
+    header .icons{
+        width: 30px;
+        padding: 7px 5px;
+    }
+    .small-icons{
+        display: none;
+    }
+    .dropdown-content{
+        display: none;
+    }
+    #quote{
+        font-size: 25px;
+    }
+    .category-container{
+        width: 47%;
+        margin: 1.5%;
+    }
+    .item-category-text {
+        font-size: 20px;
+    }
+    .product-wrap {
+        width: 35%;
+        margin: 3% 7%;
+    }
+    .product-wrap button{
+        font-size: 11px;
+    }
+    footer .icons{
+         width: 45px;
+     }
+    .telegram{
+        width: 38px;
+    }
+    .right-icons{
+        margin: 60px 10px 20px;
+    }
+    #contacts-side{
+        display: none;
+    }
+    .catalog-menu {
+        width: 22%;
+        margin: 2%;
+    }
+    .catalog-product-wrap{
+        width: 45%;
+        margin: 3% 2%;
+    }
+    .catalog-product-wrap button{
+        font-size: 11px;
+    }
+    .form{
+        font-size: 18px;
+    }
+    .text-1{
+        font-size: 20px;
+    }
+    .constructor-grid {
+        width: 85%;
+        margin: 2% 7% 2% 4%;
+        font-size: 16px;
+    }
+}
+
+@media screen and (min-width: 800px) and (max-width: 1150px){
+    .body{
+        font-size: 17px;
+    }
+    .container{
+        height: 40px;
+    }
+    h1 {
+        font-size: 40px;
+    }
+    h2{
+        font-size: 30px;
+    }
+    h3{
+        font-size: 25px;
+    }
+    h4{
+        font-size: 18px;
+    }
+    .big-contact{
+        display: none;
+    }
+    .drop-btn{
+        padding: 2px 0;
+        width: 37px;
+    }
+    .dropdown-content a {
+        font-size: 20px;
+    }
+    .navbar{
+        display: none;
+    }
+    header .icons{
+        width: 35px;
+        padding: 7px;
+    }
+    .small-icons{
+        display: none;
+    }
+    .dropdown-content{
+        display: none;
+    }
+    #quote{
+        font-size: 30px;
+    }
+    .category-container{
+        width: 47%;
+        margin: 1.5%;
+    }
+    .item-category-text {
+        font-size: 25px;
+    }
+    .product-wrap {
+        width: 35%;
+        margin: 3% 7%;
+    }
+    .product-wrap button{
+        font-size: 12px;
+    }
+    footer .icons{
+        width: 50px;
+    }
+    .telegram{
+        width: 43px;
+    }
+    .right-icons{
+         margin: 90px 10px 20px;
+     }
+    #contacts-side{
+        display: none;
+    }
+    .catalog-menu {
+        width: 22%;
+        margin: 2%;
+    }
+    .catalog-product-wrap{
+        width: 45%;
+        margin: 3% 2%;
+    }
+    .catalog-product-wrap button{
+        font-size: 12px;
+    }
+    .form{
+        font-size: 19px;
+    }
+    .text-1{
+        font-size: 20px;
+    }
+    .constructor-grid {
+        width: 85%;
+        margin: 2% 7% 2% 4%;
+        font-size: 16px;
+    }
+}
+
+@media screen and (min-width: 1150px) and (max-width: 1700px){
+    .body{
+        font-size: 18px;
+    }
+    .container{
+        height: 50px;
+    }
+    h1 {
+        font-size: 40px;
+    }
+    h2{
+        font-size: 35px;
+    }
+    h3{
+        font-size: 25px;
+    }
+    h4{
+        font-size: 20px;
+    }
+    .big-contact{
+        margin: 5px;
+    }
+    .small-contact{
+        display: none;
+    }
+    .dropdown-content{
+        display: none;
+    }
+    header .icons{
+        width: 35px;
+        padding: 7px;
+    }
+    .small-icons{
+        display: none;
+    }
+    .navbar a{
+        font-size: 25px;
+    }
+    #quote{
+        font-size: 35px;
+    }
+    .category-container{
+        width: 30%;
+        margin: 1.5%;
+    }
+    .item-category-text {
+        font-size: 25px;
+    }
+    .product-wrap {
+        width: 25%;
+        margin: 3% 4%;
+    }
+    .product-wrap button{
+        font-size: 13px;
+    }
+    footer .icons{
+        width: 50px;
+    }
+    .right-icons{
+        margin: 90px 10px 20px;
+    }
+    .telegram{
+        width: 43px;
+    }
+    #delivery{
+        width: 58%;
+    }
+    #contacts-bottom{
+        display: none;
+    }
+    .catalog-menu {
+        width: 20%;
+        margin: 2% 4%;
+    }
+    .catalog-menu a{
+        font-size: 20px;
+    }
+    .catalog-menu input{
+        font-size: 20px;
+    }
+    .catalog-product-wrap{
+        width: 27%;
+        margin: 3% 2%;
+    }
+    .catalog-product-wrap button{
+        font-size: 13px;
+    }
+    .form{
+        font-size: 19px;
+    }
+    .constructor-grid{
+        font-size: 18px;
+    }
+    .text-1{
+        font-size: 24px;
+    }
+}
+
+@media screen and (min-width: 1700px){
+    .body{
+        font-size: 23px;
+    }
+    .container{
+        height: 55px;
+    }
+    h1 {
+        font-size: 50px;
+    }
+    h2 {
+        font-size: 40px;
+    }
+    h3{
+        font-size: 30px;
+    }
+    h4{
+        font-size: 25px;
+    }
+    .big-contact{
+        font-size: 18px;
+        margin: 5px;
+    }
+    .small-contact{
+        display: none;
+    }
+    .dropdown-content{
+        display: none;
+    }
+    header .icons{
+        width: 45px;
+        padding: 7px;
+    }
+    .small-icons{
+        display: none;
+    }
+    .navbar a{
+        font-size: 30px;
+    }
+    #quote{
+        font-size: 40px;
+    }
+    .category-container{
+        width: 27%;
+        margin: 1.5% 2.5%;
+    }
+    .item-category-text {
+        font-size: 30px;
+    }
+    .product-wrap {
+        width: 22%;
+        margin: 3% 5.2%;
+    }
+    .product-wrap button{
+        font-size: 16px;
+    }
+    footer .icons{
+        width: 55px;
+    }
+    .telegram{
+        width: 48px;
+    }
+    .right-icons{
+        margin: 90px 10px 20px;
+    }
+    #delivery{
+        width: 58%;
+    }
+    #contacts-bottom{
+        display: none;
+    }
+    .catalog-menu {
+        width: 20%;
+        margin: 2% 4%;
+    }
+    .catalog-menu a{
+        font-size: 25px;
+    }
+    .catalog-menu input{
+        font-size: 25px;
+    }
+    .catalog-product-wrap{
+        width: 25%;
+        margin: 3% 4%;
+    }
+    .catalog-product-wrap button{
+        font-size: 16px;
+    }
+    .form{
+        font-size: 25px;
+    }
+    .constructor-text{
+        font-size: 23px;
+    }
+    .text-1{
+        font-size: 27px;
+    }
+    .constructor-grid {
+        grid-template-rows: repeat(4, 5em) 8em;
+        width: 50%;
+        margin: 2% 25%;
+    }
+}
