@@ -19,7 +19,7 @@ const loadUser = async () => {
         p[0].textContent = "Имя: " + item.name
         p[1].textContent = "Логин: " + item.username
         p[2].textContent = "Почта: " + item.email;
-        p[3].textContent = "Улица: " + item.address.street;
+        p[3].textContent = "Адрес: " + item.address.street;
         p[4].textContent = "Телефон: " + item.phone;
         container.appendChild(user);
     } catch (e) {
