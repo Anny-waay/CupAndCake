@@ -3,6 +3,6 @@
 
     window.addEventListener('load', () => {
         const timeStamp = document.querySelector('#timestamp');
-        timeStamp.innerHTML += `Время загрузки страницы: ${(time.loadEventStart - time.navigationStart) / 1000} секунд`;
+        timeStamp.innerHTML += ` + ${(time.loadEventStart - time.navigationStart)} ms (server)`;
     });
 })();
