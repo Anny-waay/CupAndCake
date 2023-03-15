@@ -1,0 +1,57 @@
+<main>
+  <div class="img-container">
+    <img class="main-img" src="images/constructor_cakes.jpeg" alt="Куски торта">
+  </div>
+  <form class="form">
+    <h2>Собери свой торт</h2>
+    <div class="form-item">
+      <label for="cake">Изделие:</label>
+      <select id="cake">
+        <option>Торт</option>
+        <option>Бенто-торт</option>
+      </select>
+    </div>
+    <div class="form-item">
+      <label for="biscuit">Бисквит:</label>
+      <select id="biscuit">
+        <option>Ванильный</option>
+        <option>Шоколадный</option>
+      </select>
+    </div>
+    <div class="form-item">
+      <label for="cream">Крем:</label>
+      <select id="cream">
+        <option>Крем-чиз</option>
+        <option>Шоколадный</option>
+      </select>
+    </div>
+    <div class="form-item">
+      <label for="filling">Наполнитель:</label>
+      <select id="filling">
+        <option>Клубника</option>
+        <option>Ежевика</option>
+      </select>
+    </div>
+    <div class="form-item">
+      <label for="design">Пожелания по дизайну:</label>
+      <input type="text" id="design" value="Отсутствуют">
+    </div>
+    <div class="form-item">
+      <input class="create-btn" type="submit" value="Создать">
+    </div>
+  </form>
+  <ul id="constructor-list">
+    <template id="cake-constructor">
+      <li class="constructor-grid">
+        <div class="text-1 constructor-text"></div>
+        <div class="text-2 constructor-text"></div>
+        <div class="text-3 constructor-text"></div>
+        <div class="text-4 constructor-text"></div>
+        <div class="text-5 constructor-text"></div>
+        <div class="text-6 constructor-text">*на фото изображен стандартный дизайн торта, если вы указали другой дизайн, его с вами обсудит оператор</div>
+        <img src="" alt="cake" class="picture"/>
+      </li>
+    </template>
+  </ul>
+</main>
+<script src="scripts/constructor.js"></script>

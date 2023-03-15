@@ -1,0 +1,36 @@
+<main>
+  <div class="text-columns">
+    <div class="text-columns-item catalog-menu" id="menu">
+      <label>
+        <input type="text" value="" placeholder="Поиск">
+      </label>
+      <a href="/catalog">Все позиции</a>
+      <a href="/catalog-cakes">Торты</a>
+      <a href="/catalog-bento">Бенто-торты</a>
+      <a href="/catalog-cupcakes">Капкейки</a>
+      <a href="/catalog-donuts">Пончики</a>
+      <a href="/catalog-macaroni">Макарони</a>
+      <a href="/catalog-drinks">Чай&Кофе</a>
+      <script src="scripts/display_location.js"></script>
+    </div>
+    <script type="text/javascript">displayLocation('menu');</script>
+    <div class="text-columns-item catalog-items">
+      <h2>{{catalog}}</h2>
+      <section class="product-cards">
+      {{#each products}}
+        <div class="catalog-product-wrap">
+          <div class="product-img">
+            <img class="product" src={{image}} alt="Продукт">
+            <img class="wishlist-img" src="images/wishlist.png" alt="Cердце">
+          </div>
+          <div class="product-description">
+            <h4>{{product}}</h4>
+            <span> {{price}} &#8381;</span><br>
+            <button class="btn-oval">В корзину</button>
+          </div>
+        </div>
+      {{/each}}
+      </section>
+    </div>
+  </div>
+</main>
