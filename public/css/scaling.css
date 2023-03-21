@@ -99,6 +99,24 @@
         margin: 2% 7% 2% 4%;
         font-size: 15px;
     }
+    #user-container {
+        width: 50%;
+        margin: 2% 25%;
+    }
+    .user-login {
+        width: 50%;
+        margin: 2% 25%;
+    }
+    .user-login label{
+        font-size: 15px;
+    }
+    .user-login input{
+        font-size: 14px;
+    }
+
+    .user-login button{
+        font-size: 14px;
+    }
 }
 
 @media screen and (min-width: 600px) and (max-width: 800px){
@@ -194,6 +212,23 @@
         margin: 2% 7% 2% 4%;
         font-size: 16px;
     }
+    #user-container {
+        width: 50%;
+        margin: 2% 25%;
+    }
+    .user-login {
+        width: 50%;
+        margin: 2% 25%;
+    }
+    .user-login label{
+        font-size: 16px;
+    }
+    .user-login input{
+        font-size: 14px;
+    }
+    .user-login button{
+        font-size: 14px;
+    }
 }
 
 @media screen and (min-width: 800px) and (max-width: 1150px){
@@ -287,6 +322,25 @@
     .constructor-grid {
         width: 85%;
         margin: 2% 7% 2% 4%;
+        font-size: 16px;
+    }
+
+    #user-container {
+        width: 50%;
+        margin: 2% 25%;
+    }
+    .user-login {
+        width: 50%;
+        margin: 2% 25%;
+    }
+    .user-login label{
+        font-size: 18px;
+    }
+    .user-login input{
+        font-size: 16px;
+    }
+
+    .user-login button{
         font-size: 16px;
     }
 }
@@ -386,6 +440,25 @@
     }
     .text-1{
         font-size: 24px;
+    }
+
+    #user-container {
+        width: 30%;
+        margin: 2% 35%;
+    }
+    .user-login {
+        width: 30%;
+        margin: 2% 35%;
+    }
+    .user-login label{
+        font-size: 20px;
+    }
+    .user-login input{
+        font-size: 17px;
+    }
+
+    .user-login button{
+        font-size: 17px;
     }
 }
 
@@ -491,4 +564,24 @@
         width: 50%;
         margin: 2% 25%;
     }
+
+    #user-container {
+        width: 30%;
+        margin: 2% 35%;
+    }
+    .user-login {
+        width: 30%;
+        margin: 2% 35%;
+    }
+    .user-login label{
+        font-size: 25px;
+    }
+    .user-login input{
+        font-size: 20px;
+    }
+
+    .user-login button{
+        font-size: 20px;
+    }
+
 }

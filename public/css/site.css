@@ -199,7 +199,7 @@ header .icons{
     box-shadow:  0 0 15px 3px #E3DEDF;
 }
 
-.product-wrap button{
+.btn-oval{
     font-weight: bold;
     text-transform: uppercase;
     background-color: #F7F5F7;
@@ -208,6 +208,8 @@ header .icons{
     border-width: 1px;
     border-radius: 35px;
     padding: 1.5% 3%;
+}
+.product-wrap button{
     margin-top: 5%;
 }
 
@@ -390,10 +392,7 @@ tr:nth-child(2n-1) td{
     border-radius: 35px;
     font-size: 1em;
 }
-#user-container{
-    width: 30%;
-    margin: 2% 35%;
-}
+
 .user-info{
     color: #828DDF;
     font-weight: 600;
@@ -408,4 +407,26 @@ tr:nth-child(2n-1) td{
 }
 #error-template p{
     font-size: 1em;
+}
+
+.user-login{
+    width: 30%;
+    margin: 2% 35%;
+    padding: 1%;
+    background-color: #EDF3FF;
+    color: #828DDF;
+}
+
+.user-login label{
+    width: 50%;
+    margin: 3% 25%;
+    display: block;
+}
+.user-login input{
+    width: 100%;
+}
+
+.user-login button{
+    width: 30%;
+    margin: 5% 35%;
 }

@@ -1,0 +1,31 @@
+<main>
+  <div class="img-container">
+    <img class="main-img" src="images/quote.jpg" alt="Торт">
+    <q id="quote">Сладости — лучшее лекарство от слез девушки</q>
+  </div>
+
+  <section class="category">
+    {{>category link="/catalog-cakes" image="images/cake.jpeg" name="Торты"}}
+    {{>category link="/catalog-bento" image="images/bento.jpeg" name="Бенто-торты"}}
+    {{>category link="/catalog-cupcakes" image="images/cupcake.jpeg" name="Капкейки"}}
+    {{>category link="/catalog-donuts" image="images/donuts.jpeg" name="Пончики"}}
+    {{>category link="/catalog-macaroni" image="images/macarun.jpeg" name="Макарони"}}
+    {{>category link="/catalog-drinks" image="images/coffee.jpeg" name="Чай&Кофе"}}
+  </section>
+  <h2>Специальные предложения</h2>
+  <section class="product-cards">
+    {{#each specialOffers}}
+    <div class="product-wrap">
+      <div class="product-img">
+        <img class="product" src={{image}} alt="Товар">
+        <img class="wishlist-img" src="images/wishlist.png" alt="Сердце">
+      </div>
+      <div class="product-description">
+        <h4>{{product}}</h4>
+        <span class="prev-price">{{prevPrice}}</span><span class="actual-price"> {{actualPrice}} &#8381;</span><br>
+        <button class="btn-oval">В корзину</button>
+      </div>
+    </div>
+    {{/each}}
+  </section>
+</main>

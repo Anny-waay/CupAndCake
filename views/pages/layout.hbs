@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <title>{{title}}</title>
+  <meta charset="UTF-8">
+  <meta name="keywords" content="торт, пирожное, десерт, сладости">
+  {{>links}}
+  {{#if isCatalog}}
+    <link href="css/catalog.css" rel="stylesheet">
+  {{/if}}
+</head>
+<body>
+  {{>header index=isIndex}}
+
+  {{{body}}}
+
+  {{#if isIndex}}
+    {{>footer}}
+  {{else}}
+    {{>shortFooter}}
+  {{/if}}
+</body>
+</html>

@@ -49,13 +49,5 @@
 }
 
 .catalog-product-wrap button{
-    font-weight: bold;
-    text-transform: uppercase;
-    background-color: #F7F5F7;
-    border-color: black;
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 35px;
-    padding: 1.5% 3%;
     margin-top: 5%;
 }
