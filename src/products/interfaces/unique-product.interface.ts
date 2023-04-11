@@ -1,6 +1,6 @@
 import { Biscuit, Cream, Filling, ProductType } from "@prisma/client";
 
-export interface UniqueProduct{
+export class UniqueProduct{
   type: ProductType;
   biscuit: Biscuit;
   cream: Cream;

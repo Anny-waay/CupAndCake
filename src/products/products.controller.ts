@@ -1,5 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
+import {
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiTags
+} from "@nestjs/swagger";
 import { Product } from "./interfaces/product.interface";
 import { ProductsService } from "./products.service";
 import { ProductDto } from "./dto/product.dto";
@@ -12,63 +18,83 @@ import { ProductType } from "@prisma/client";
 @Controller('api/products')
 export class ProductsController {
   constructor(private readonly productService : ProductsService) {}
+  @ApiOkResponse({description: 'Products was successfully received.'})
   @Get('catalog')
   async getCatalog(): Promise<Product[]>{
     return this.productService.getCatalog();
   }
 
-  @Get('catalog/product_type')
-  async getCatalogType(@Body() type: ProductType): Promise<Product[]>{
+  @Get('catalog/:type')
+  async getCatalogType(@Param('type') type: ProductType): Promise<Product[]>{
     return this.productService.getCatalogType(type);
   }
 
+  @ApiOkResponse({description: 'Products was successfully found.'})
+  @ApiNotFoundResponse({description: 'Products was not found.'})
   @Get('catalog/search')
-  async search(@Body() request: string): Promise<Product[]>{
+  async search(@Param('request') request: string): Promise<Product[]>{
     return this.productService.search(request);
   }
 
-  @Post('product')
+  @ApiCreatedResponse({description: 'Product was successfully created.'})
+  @ApiBadRequestResponse({description: 'Invalid product data.'})
+  @Post()
   async addProduct(@Body() product: ProductDto): Promise<Product>{
     return this.productService.addProduct(product);
   }
 
-  @Get('product/:product_name')
-  async getProduct(@Param('product_name') productName: string): Promise<Product>{
-    return this.productService.getProduct(productName);
+  @ApiOkResponse({description: 'Product was successfully found.'})
+  @ApiNotFoundResponse({description: 'Product not found.'})
+  @Get(':productId')
+  async getProduct(@Param('productId') productId: string): Promise<Product>{
+    return this.productService.getProduct(productId);
   }
 
-  @Put('product/:product_name')
-  async updateProduct(@Param('product_name') productName: string, @Body() product: ProductDto): Promise<Product>{
-    return this.productService.updateProduct(productName, product);
+  @ApiOkResponse({description: 'Product was successfully updated.'})
+  @ApiBadRequestResponse({description: 'Invalid product data.'})
+  @Put(':productId')
+  async updateProduct(@Param('productId') productId: string, @Body() product: ProductDto): Promise<Product>{
+    return this.productService.updateProduct(productId, product);
   }
 
-  @Delete('product/:product_name')
-  async deleteProduct(@Param('product_name') productName: string): Promise<void>{
+  @ApiOkResponse({description: 'Product was successfully deleted.'})
+  @ApiBadRequestResponse({description: 'Invalid productId.'})
+  @Delete(':productId')
+  async deleteProduct(@Param('productId') productName: string): Promise<void>{
     return this.productService.deleteProduct(productName);
   }
 
-  @Post('new_special')
+  @ApiCreatedResponse({description: 'Special was successfully created.'})
+  @ApiBadRequestResponse({description: 'Invalid special data.'})
+  @Post('specials')
   async addNewSpecialProduct(@Body() special: NewSpecialDto): Promise<Special>{
     return this.productService.addNewSpecialProduct(special);
   }
 
-  @Post('special/:product_name')
-  async addSpecialProduct(@Param('product_name') productName: string, @Body() special: ExistingSpecialDto): Promise<Special>{
+  @ApiCreatedResponse({description: 'Special was successfully created.'})
+  @ApiBadRequestResponse({description: 'Invalid special data.'})
+  @Post('specials/:productId')
+  async addSpecialProduct(@Param('productId') productName: string, @Body() special: ExistingSpecialDto): Promise<Special>{
     return this.productService.addSpecialProduct(productName, special);
   }
 
-  @Delete('special/:product_name')
-  async deleteSpecialProduct(@Param('product_name') productName: string): Promise<void>{
-    return this.productService.deleteSpecialProduct(productName);
+  @ApiOkResponse({description: 'Special was successfully deleted.'})
+  @ApiBadRequestResponse({description: 'Invalid specialId.'})
+  @Delete('specials/:specialId')
+  async deleteSpecialProduct(@Param('specialId') specialId: string): Promise<void>{
+    return this.productService.deleteSpecialProduct(specialId);
   }
 
+  @ApiOkResponse({description: 'Specials was successfully received.'})
   @Get('specials')
   async getSpecialProducts(): Promise<Special[]>{
     return this.productService.getSpecialProducts();
   }
 
-  @Put('special/:product_name')
-  async updateSpecialProduct(@Param('product_name') productName: string, @Body() special: ExistingSpecialDto): Promise<Special>{
-    return this.productService.updateSpecialProduct(productName, special);
+  @ApiOkResponse({description: 'Special was successfully updated.'})
+  @ApiBadRequestResponse({description: 'Invalid special data.'})
+  @Put('specials/:specialId')
+  async updateSpecialProduct(@Param('specialId') specialId: string, @Body() special: ExistingSpecialDto): Promise<Special>{
+    return this.productService.updateSpecialProduct(specialId, special);
   }
 }

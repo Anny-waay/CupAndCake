@@ -1,4 +1,4 @@
-export interface Special {
+export class Special {
   name: string;
   prev_price: number;
   new_price: number;

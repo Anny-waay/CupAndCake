@@ -1,7 +1,7 @@
 import { Product } from "../../products/interfaces/product.interface";
 import { DeliveryType, OrderStatus, PaymentType } from "@prisma/client";
 
-export interface Order {
+export class Order {
   creation_date: Date;
   status: OrderStatus;
   payment: PaymentType;

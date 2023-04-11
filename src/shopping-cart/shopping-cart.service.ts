@@ -10,11 +10,11 @@ export class ShoppingCartService {
     throw new NotImplementedException();
   }
 
-  addProduct(userId: string, productName: string): Promise<Product> {
+  addProduct(userId: string, productId: string): Promise<Product> {
     throw new NotImplementedException();
   }
 
-  deleteProduct(userId: string, productName: string): Promise<void> {
+  deleteProduct(userId: string, productId: string): Promise<void> {
     throw new NotImplementedException();
   }
 
@@ -22,11 +22,11 @@ export class ShoppingCartService {
     throw new NotImplementedException();
   }
 
-  addUniqueProduct(userId: string, product: UniqueProductDto): Promise<UniqueProduct> {
+  addUniqueProduct(userId: string, productId: string): Promise<UniqueProduct> {
     throw new NotImplementedException();
   }
 
-  deleteUniqueProduct(userId: string, product: UniqueProductDto): Promise<void> {
+  deleteUniqueProduct(userId: string, productId: string): Promise<void> {
     throw new NotImplementedException();
   }
 }
