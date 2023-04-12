@@ -18,39 +18,40 @@ import { ProductType } from "@prisma/client";
 @Controller('api/products')
 export class ProductsController {
   constructor(private readonly productService : ProductsService) {}
-  @ApiOkResponse({description: 'Products was successfully received.'})
+  @ApiOkResponse({description: 'Products was successfully received.', type: [Product]})
   @Get('catalog')
   async getCatalog(): Promise<Product[]>{
     return this.productService.getCatalog();
   }
 
+  @ApiOkResponse({description: 'Products was successfully received.', type: [Product]})
   @Get('catalog/:type')
   async getCatalogType(@Param('type') type: ProductType): Promise<Product[]>{
     return this.productService.getCatalogType(type);
   }
 
-  @ApiOkResponse({description: 'Products was successfully found.'})
+  @ApiOkResponse({description: 'Products was successfully found.', type: [Product]})
   @ApiNotFoundResponse({description: 'Products was not found.'})
   @Get('catalog/search')
   async search(@Param('request') request: string): Promise<Product[]>{
     return this.productService.search(request);
   }
 
-  @ApiCreatedResponse({description: 'Product was successfully created.'})
+  @ApiCreatedResponse({description: 'Product was successfully created.', type: Product})
   @ApiBadRequestResponse({description: 'Invalid product data.'})
   @Post()
   async addProduct(@Body() product: ProductDto): Promise<Product>{
     return this.productService.addProduct(product);
   }
 
-  @ApiOkResponse({description: 'Product was successfully found.'})
+  @ApiOkResponse({description: 'Product was successfully found.', type: Product})
   @ApiNotFoundResponse({description: 'Product not found.'})
   @Get(':productId')
   async getProduct(@Param('productId') productId: string): Promise<Product>{
     return this.productService.getProduct(productId);
   }
 
-  @ApiOkResponse({description: 'Product was successfully updated.'})
+  @ApiOkResponse({description: 'Product was successfully updated.', type: Product})
   @ApiBadRequestResponse({description: 'Invalid product data.'})
   @Put(':productId')
   async updateProduct(@Param('productId') productId: string, @Body() product: ProductDto): Promise<Product>{
@@ -64,14 +65,14 @@ export class ProductsController {
     return this.productService.deleteProduct(productName);
   }
 
-  @ApiCreatedResponse({description: 'Special was successfully created.'})
+  @ApiCreatedResponse({description: 'Special was successfully created.', type: Special})
   @ApiBadRequestResponse({description: 'Invalid special data.'})
   @Post('specials')
   async addNewSpecialProduct(@Body() special: NewSpecialDto): Promise<Special>{
     return this.productService.addNewSpecialProduct(special);
   }
 
-  @ApiCreatedResponse({description: 'Special was successfully created.'})
+  @ApiCreatedResponse({description: 'Special was successfully created.', type: Special})
   @ApiBadRequestResponse({description: 'Invalid special data.'})
   @Post('specials/:productId')
   async addSpecialProduct(@Param('productId') productName: string, @Body() special: ExistingSpecialDto): Promise<Special>{
@@ -85,13 +86,13 @@ export class ProductsController {
     return this.productService.deleteSpecialProduct(specialId);
   }
 
-  @ApiOkResponse({description: 'Specials was successfully received.'})
+  @ApiOkResponse({description: 'Specials was successfully received.', type: [Special]})
   @Get('specials')
   async getSpecialProducts(): Promise<Special[]>{
     return this.productService.getSpecialProducts();
   }
 
-  @ApiOkResponse({description: 'Special was successfully updated.'})
+  @ApiOkResponse({description: 'Special was successfully updated.', type: Special})
   @ApiBadRequestResponse({description: 'Invalid special data.'})
   @Put('specials/:specialId')
   async updateSpecialProduct(@Param('specialId') specialId: string, @Body() special: ExistingSpecialDto): Promise<Special>{

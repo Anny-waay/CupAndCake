@@ -10,13 +10,13 @@ import { ShoppingCartService } from "./shopping-cart.service";
 export class ShoppingCartController {
   constructor(private readonly shoppingCartService : ShoppingCartService) {}
 
-  @ApiOkResponse({description: 'Products from shopping cart was successfully received.'})
+  @ApiOkResponse({description: 'Products from shopping cart was successfully received.', type: [Product]})
   @Get('products')
   getProducts(@Param('userId') userId: string): Promise<Product[]> {
     return this.shoppingCartService.getProducts(userId);
   }
 
-  @ApiOkResponse({description: 'Product was successfully added to shopping cart.'})
+  @ApiOkResponse({description: 'Product was successfully added to shopping cart.', type: [Product]})
   @ApiBadRequestResponse({description: 'Invalid productId.'})
   @Post('products/:productId')
   addProduct(@Param('userId') userId: string, @Param('productId') productId: string): Promise<Product> {
@@ -30,13 +30,13 @@ export class ShoppingCartController {
     return this.shoppingCartService.deleteProduct(userId, productId);
   }
 
-  @ApiOkResponse({description: 'Unique products from shopping cart was successfully received.'})
+  @ApiOkResponse({description: 'Unique products from shopping cart was successfully received.', type: [UniqueProduct]})
   @Get('unique-products')
   getUniqueProducts(@Param('userId') userId: string): Promise<UniqueProduct[]> {
     return this.shoppingCartService.getUniqueProducts(userId);
   }
 
-  @ApiOkResponse({description: 'Unique product was successfully added to shopping cart.'})
+  @ApiOkResponse({description: 'Unique product was successfully added to shopping cart.', type: [UniqueProduct]})
   @ApiBadRequestResponse({description: 'Invalid productId.'})
   @Post('unique-products/:productId')
   addUniqueProduct(@Param('userId') userId: string, @Param('product_id') productId: string): Promise<UniqueProduct> {

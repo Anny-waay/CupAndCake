@@ -9,27 +9,27 @@ import { LoginDto } from "./dto/login.dto";
 @Controller('api/user')
 export class UserController {
   constructor(private readonly userService : UserService) {}
-  @ApiCreatedResponse({description: 'User was successfully created.'})
+  @ApiCreatedResponse({description: 'User was successfully created.', type: User})
   @ApiBadRequestResponse({description: 'Invalid user data.'})
   @Post('register')
   async register(@Body() userDto: UserDto): Promise<User> {
     return this.userService.register(userDto);
   }
 
-  @ApiOkResponse({description: 'User was successfully logged in.'})
+  @ApiOkResponse({description: 'User was successfully logged in.', type: User})
   @ApiBadRequestResponse({description: 'Invalid login or password.'})
   @Post('login')
   async login(@Body() loginDto: LoginDto): Promise<User> {
     return this.userService.login(loginDto);
   }
 
-  @ApiOkResponse({description: 'User data was successfully received.'})
+  @ApiOkResponse({description: 'User data was successfully received.', type: User})
   @Get()
   async getUser(@Param('userId') userId: string): Promise<User> {
     return this.userService.getUser(userId);
   }
 
-  @ApiOkResponse({description: 'User data was successfully updated'})
+  @ApiOkResponse({description: 'User data was successfully updated', type: User})
   @ApiBadRequestResponse({description: 'Invalid user data.'})
   @Put()
   async updateUser(@Param('userId') userId: string, @Body() userDto: UserDto): Promise<User> {
