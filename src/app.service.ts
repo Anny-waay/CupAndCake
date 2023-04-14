@@ -1,10 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { SpecialOfferDto } from "./dtos/specialOfferDto";
-import { ProductDto } from "./dtos/productDto";
 
 @Injectable()
 export class AppService {
-  getSpecials(): SpecialOfferDto[] {
+  getSpecials(): object[] {
     return [
       {
         image:"images/coffee_cake.jpeg",
@@ -27,7 +25,7 @@ export class AppService {
     ];
   }
 
-  getProducts(): ProductDto[] {
+  getProducts(): object[] {
     return [
       {
         image:"images/cake-chocolate.jpeg",
