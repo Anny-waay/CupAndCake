@@ -2,15 +2,15 @@ import { BadRequestException, Body, Controller, Get, Param, Post, Put } from "@n
 import { ApiBadRequestResponse, ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { UserService } from "./user.service";
 import { UserDto } from "./dto/user.dto";
+import { User } from "./interfaces/user.interface";
 import { LoginDto } from "./dto/login.dto";
-import { User } from "@prisma/client";
 import { UserUpdateDto } from "./dto/user.update.dto";
 
 @ApiTags('user')
 @Controller('api/user')
 export class UserController {
   constructor(private readonly userService : UserService) {}
-  @ApiCreatedResponse({description: 'User was successfully created.'})
+  @ApiCreatedResponse({description: 'User was successfully created.', type: User})
   @ApiBadRequestResponse({description: 'Invalid user data.'})
   @Post('register')
   async register(@Body() userDto: UserDto): Promise<User> {
@@ -20,7 +20,7 @@ export class UserController {
     return user;
   }
 
-  @ApiOkResponse({description: 'User was successfully logged in.'})
+  @ApiOkResponse({description: 'User was successfully logged in.', type: User})
   @ApiBadRequestResponse({description: 'Invalid login or password.'})
   @Post('login')
   async login(@Body() loginDto: LoginDto): Promise<User> {
@@ -30,7 +30,7 @@ export class UserController {
     return user;
   }
 
-  @ApiOkResponse({description: 'User data was successfully received.'})
+  @ApiOkResponse({description: 'User data was successfully received.', type: User})
   @ApiBadRequestResponse({description: 'Invalid userId.'})
   @Get()
   async getUser(@Param('userId') userId: string): Promise<User> {
@@ -40,7 +40,7 @@ export class UserController {
     return user;
   }
 
-  @ApiOkResponse({description: 'User data was successfully updated'})
+  @ApiOkResponse({description: 'User data was successfully updated', type: User})
   @ApiBadRequestResponse({description: 'Invalid user data.'})
   @Put()
   async updateUser(@Param('userId') userId: string, @Body() userDto: UserUpdateDto): Promise<User> {
