@@ -1,12 +1,22 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsNotEmpty } from "class-validator";
-import { UserRole } from "@prisma/client";
+import { IsNotEmpty, ValidateIf } from "class-validator";
 
 export class UserUpdateDto {
-  @ApiProperty()
+  @ApiProperty({
+    description: 'user name',
+    example: "Anne"
+  })
+  @ValidateIf(o => o.phoneNumber === null || o.phoneNumber === "")
   @IsNotEmpty()
   name:string;
-  @ApiProperty()
+
+  @ApiProperty({
+    description: 'user phone',
+    example: "88888888888"
+  })
+  @ValidateIf(o => o.name === null || o.name === "")
   @IsNotEmpty()
-  password:string;
+  phoneNumber:string;
+
+
 }

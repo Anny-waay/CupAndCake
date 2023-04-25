@@ -10,7 +10,10 @@ export class UserDto {
   @IsNotEmpty()
   name:string;
 
-  @ApiProperty()
+  @ApiProperty({
+    description: 'user role',
+    example: "CUSTOMER"
+  })
   @IsNotEmpty()
   role:UserRole;
 

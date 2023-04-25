@@ -74,12 +74,12 @@ function updateStorage(){
 
     let values = [];
     items.forEach((item) => {
-        const text1 = item.getElementsByClassName('text-1')[0].innerText;
-        const text2 = item.getElementsByClassName('text-2')[0].innerText;
-        const text3 = item.getElementsByClassName('text-3')[0].innerText;
-        const text4 = item.getElementsByClassName('text-4')[0].innerText;
-        const text5 = item.getElementsByClassName('text-5')[0].innerText;
-        const pic = item.getElementsByClassName('picture')[0].src;
+        const text1 = item.getElementsByClassName('grid-product-name')[0].innerText;
+        const text2 = item.getElementsByClassName('grid-biscuit')[0].innerText;
+        const text3 = item.getElementsByClassName('grid-filling')[0].innerText;
+        const text4 = item.getElementsByClassName('grid-cream')[0].innerText;
+        const text5 = item.getElementsByClassName('grid-design')[0].innerText;
+        const pic = item.getElementsByClassName('grid-picture')[0].src;
         values.push({ text1, text2, text3, text4, text5, pic});
     });
 

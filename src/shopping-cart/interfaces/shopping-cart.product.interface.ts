@@ -1,7 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Product } from "@prisma/client";
+import { ProductInterface } from "../../products/interfaces/product.interface";
 
-export class ProductInterface {
+export class ShoppingCartProductInterface {
   @ApiProperty({
     description: 'product id',
     example: "c3fba430-f60a-41c5-9430-5275ec392499"
@@ -45,12 +46,18 @@ export class ProductInterface {
   picture: string;
 
   @ApiProperty({
+    description: 'amount',
+    example: 3
+  })
+  amount: number;
+
+  @ApiProperty({
     description: 'availability of the product',
     example: true
   })
   isActive: boolean;
 
-  constructor(product : Product) {
+  constructor(product : Product, amount: number) {
     this.id = product.id
     this.name = product.name
     this.composition = product.composition
@@ -59,5 +66,6 @@ export class ProductInterface {
     this.price = product.price
     this.picture = product.picture
     this.isActive = product.isActive
+    this.amount = amount
   }
 }

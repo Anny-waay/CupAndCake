@@ -46,6 +46,7 @@
     text-align: center;
     background: white;
     box-shadow:  0 0 15px 3px #E3DEDF;
+    position: relative;
 }
 
 .catalog-product-wrap button{

@@ -1,6 +1,5 @@
 const getUser = async () => {
-    const id = Math.floor(Math.random() * 10);
-    return await fetch(`https://jsonplaceholder.typicode.com/users?id=${id}`)
+    return await fetch(`/api/user?userId=15568b1c-96a5-48fb-90b4-bd75a94b0ec8`)
         .then(response => response.json());
 }
 
@@ -12,15 +11,14 @@ const loadUser = async () => {
     container.innerHTML = '' + '<img src="../images/loading.gif" width="200" height="200" alt="mask">';
 
     try {
-        const item = (await getUser())[0]
+        const item = await getUser()
         container.innerHTML = '';
         const user = template_users.content.cloneNode(true);
         let p = user.querySelectorAll("p");
-        p[0].textContent = "Имя: " + item.name
-        p[1].textContent = "Логин: " + item.username
-        p[2].textContent = "Почта: " + item.email;
-        p[3].textContent = "Адрес: " + item.address.street;
-        p[4].textContent = "Телефон: " + item.phone;
+        p[0].textContent = "Имя: " + item.name;
+        p[1].textContent = "Почта: " + item.email;
+        p[2].textContent = "Телефон: " + item.phoneNumber;
+        p[3].textContent = "Пароль: ********";
         container.appendChild(user);
     } catch (e) {
         const error = template_error.content.cloneNode(true);

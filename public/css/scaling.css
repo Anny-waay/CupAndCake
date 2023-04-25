@@ -91,7 +91,7 @@
     .form{
         font-size: 17px;
     }
-    .text-1{
+    .grid-product-name{
         font-size: 19px;
     }
     .constructor-grid {
@@ -204,7 +204,7 @@
     .form{
         font-size: 18px;
     }
-    .text-1{
+    .grid-product-name{
         font-size: 20px;
     }
     .constructor-grid {
@@ -316,7 +316,7 @@
     .form{
         font-size: 19px;
     }
-    .text-1{
+    .grid-product-name{
         font-size: 20px;
     }
     .constructor-grid {
@@ -438,7 +438,7 @@
     .constructor-grid{
         font-size: 18px;
     }
-    .text-1{
+    .grid-product-name{
         font-size: 24px;
     }
 
@@ -553,10 +553,10 @@
     .form{
         font-size: 25px;
     }
-    .constructor-text{
+    .grid-text{
         font-size: 23px;
     }
-    .text-1{
+    .grid-product-name{
         font-size: 27px;
     }
     .constructor-grid {

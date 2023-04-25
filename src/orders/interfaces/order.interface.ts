@@ -1,8 +1,21 @@
-import { Product } from "../../products/interfaces/product.interface";
-import { DeliveryType, OrderStatus, PaymentType } from "@prisma/client";
+import { ProductInterface } from "../../products/interfaces/product.interface";
+import { DeliveryType, Order, OrderStatus, PaymentType } from "@prisma/client";
 import { ApiProperty } from "@nestjs/swagger";
 
-export class Order {
+export class OrderInterface {
+
+  @ApiProperty({
+    description: 'product id',
+    example: "c3fba430-f60a-41c5-9430-5275ec392499"
+  })
+  id: string;
+
+  @ApiProperty({
+    description: 'creation date and time',
+    example: Date.UTC(2023, 4, 15, 15, 20)
+  })
+  creationDate: Date;
+
   @ApiProperty({
     description: 'payment type',
     example: PaymentType.CREDIT_CARD
@@ -25,7 +38,14 @@ export class Order {
     description: 'delivery date and time',
     example: Date.UTC(2023, 4, 15, 15, 20)
   })
-  delivery_date: Date;
+  deliveryDate: Date;
 
-  products: Product[];
+  constructor(order: Order) {
+    this.id = order.id
+    this.creationDate = order.creation_date
+    this.payment = order.payment
+    this.delivery = order.delivery
+    this.address = order.address
+    this.deliveryDate = order.devivery_date
+  }
 }

@@ -13,19 +13,5 @@
     {{>category link="/catalog-drinks" image="images/coffee.jpeg" name="Чай&Кофе"}}
   </section>
   <h2>Специальные предложения</h2>
-  <section class="product-cards">
-    {{#each specialOffers}}
-    <div class="product-wrap">
-      <div class="product-img">
-        <img class="product" src={{image}} alt="Товар">
-        <img class="wishlist-img" src="images/wishlist.png" alt="Сердце">
-      </div>
-      <div class="product-description">
-        <h4>{{product}}</h4>
-        <span class="prev-price">{{prevPrice}}</span><span class="actual-price"> {{actualPrice}} &#8381;</span><br>
-        <button class="btn-oval">В корзину</button>
-      </div>
-    </div>
-    {{/each}}
-  </section>
+  {{>specials}}
 </main>

@@ -1,7 +1,7 @@
-import { Biscuit, Cream, Filling, Product, ProductType, Special, UniqueProduct } from "@prisma/client";
 import { ApiProperty } from "@nestjs/swagger";
+import { Biscuit, Cream, Filling, ProductType, UniqueProduct } from "@prisma/client";
 
-export class UniqueProductInterface{
+export class ShoppingCartUniqueInterface{
   @ApiProperty({
     description: 'product id',
     example: "c3fba430-f60a-41c5-9430-5275ec392499"
@@ -68,7 +68,13 @@ export class UniqueProductInterface{
   })
   price: number;
 
-  constructor(product : UniqueProduct) {
+  @ApiProperty({
+    description: 'amount',
+    example: 3
+  })
+  amount: number;
+
+  constructor(product : UniqueProduct, amount: number) {
     this.id = product.id
     this.type = product.type
     this.biscuit = product.biscuit
@@ -80,5 +86,6 @@ export class UniqueProductInterface{
     this.design = product.design
     this.price = product.price
     this.picture = product.picture
+    this.amount = amount
   }
 }

@@ -10,8 +10,7 @@ export class AppController {
   index() {
     return {
       title: 'Cup&Cake',
-      isIndex: true,
-      specialOffers: this.appService.getSpecials()
+      isIndex: true
     };
   }
 
@@ -22,7 +21,7 @@ export class AppController {
       title: 'Каталог',
       isCatalog: true,
       catalog: "Меню",
-      products: this.appService.getProducts()
+      isAllProducts: true
     };
   }
 
@@ -33,7 +32,7 @@ export class AppController {
       title: 'Каталог',
       isCatalog: true,
       catalog: "Торты",
-      products: this.appService.getProducts()
+      type: "CAKE"
     };
   }
 
@@ -43,7 +42,8 @@ export class AppController {
     return {
       title: 'Каталог',
       isCatalog: true,
-      catalog: "Бенто-торты"
+      catalog: "Бенто-торты",
+      type: "BENTO"
     };
   }
 
@@ -53,7 +53,8 @@ export class AppController {
     return {
       title: 'Каталог',
       isCatalog: true,
-      catalog: "Капкейки"
+      catalog: "Капкейки",
+      type: "CUPCAKE"
     };
   }
 
@@ -63,7 +64,8 @@ export class AppController {
     return {
       title: 'Каталог',
       isCatalog: true,
-      catalog: "Пончики"
+      catalog: "Пончики",
+      type: "DONUT"
     };
   }
 
@@ -73,7 +75,8 @@ export class AppController {
     return {
       title: 'Каталог',
       isCatalog: true,
-      catalog: "Макарони"
+      catalog: "Макарони",
+      type: "MACARONI"
     };
   }
 
@@ -83,7 +86,8 @@ export class AppController {
     return {
       title: 'Каталог',
       isCatalog: true,
-      catalog: "Напитки"
+      catalog: "Напитки",
+      type: "DRINK"
     };
   }
 
