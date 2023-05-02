@@ -86,7 +86,7 @@ export class FavouritesService {
     });
     let result = new Array<SpecialDto>();
     for (const product of products){
-      result.push(new SpecialDto(product.product.special, product.product));
+      result.push(new SpecialDto(product.product.special, new ProductDto(product.product)));
     }
     return result;
   }

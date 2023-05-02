@@ -296,7 +296,7 @@ export class ProductsService {
       throw new NotFoundException('No specials now.');
     let result = new Array<SpecialDto>();
     for (const special of specials){
-      result.push(new SpecialDto(special, special.product))
+      result.push(new SpecialDto(special, new ProductDto(special.product)))
     }
     return result
   }
@@ -328,7 +328,7 @@ export class ProductsService {
         new_price: specialDto.new_price,
         end_date: specialDto.end_date
       }
-    }), special.product)
+    }), new ProductDto(special.product))
   }
 
   async deleteSpecialProduct(productId: string){
