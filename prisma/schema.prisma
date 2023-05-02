@@ -25,9 +25,9 @@ model Product {
   id            String         @id @default(uuid()) @db.Uuid
   name          String         @unique
   type          ProductType
-  composition   String         @default("")
-  weight        Int            @default(0)
-  calories      Int            @default(0)
+  composition   String
+  weight        Int
+  calories      Int
   price         Float
   picture       String
   isActive      Boolean        @default(true)
