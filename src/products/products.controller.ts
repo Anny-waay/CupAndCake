@@ -1,135 +1,261 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
 import {
-  ApiBadRequestResponse,
-  ApiCreatedResponse,
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpException,
+  Param, ParseUUIDPipe,
+  Post,
+  Put,
+  Query, UseGuards
+} from "@nestjs/common";
+import {
+  ApiBadRequestResponse, ApiCookieAuth,
+  ApiCreatedResponse, ApiForbiddenResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
-  ApiTags
+  ApiTags, ApiUnauthorizedResponse
 } from "@nestjs/swagger";
-import { ProductInterface } from "./interfaces/product.interface";
-import { ProductsService } from "./products.service";
 import { ProductDto } from "./dto/product.dto";
+import { ProductsService } from "./products.service";
+import { ProductCreateDto } from "./dto/product.create.dto";
 import { NewSpecialDto } from "./dto/new-special.dto";
-import { SpecialInterface } from "./interfaces/special.interface";
+import { SpecialDto } from "./dto/special.dto";
 import { ExistingSpecialDto } from "./dto/existing-special.dto";
 import { ProductType } from "@prisma/client";
 import { ProductUpdateDto } from "./dto/product.update.dto";
+import { UniqueProductCreateDto } from "./dto/unique-product.create.dto";
 import { UniqueProductDto } from "./dto/unique-product.dto";
-import { UniqueProductInterface } from "./interfaces/unique-product.interface";
+import { AuthGuard } from "../auth/auth.guard";
+import { SessionClaimValidator } from "supertokens-node/lib/build/recipe/session";
+import UserRoles from "supertokens-node/recipe/userroles";
+import { IsUUID } from "class-validator";
 
 @ApiTags('products')
 @Controller('api/products')
 export class ProductsController {
   constructor(private readonly productService : ProductsService) {}
-  @ApiOkResponse({description: 'Products was successfully received.', type: [ProductInterface]})
+  @ApiOkResponse({description: 'Products was successfully received.', type: [ProductDto]})
   @Get('catalog')
   async getCatalog(@Query('page') page: number,
-                   @Query('limit') limit: number): Promise<ProductInterface[]>{
+                   @Query('limit') limit: number): Promise<ProductDto[]>{
     return this.productService.getCatalog(page, limit);
   }
 
-  @ApiOkResponse({description: 'Products was successfully received.', type: [ProductInterface]})
+  @ApiOkResponse({description: 'Products was successfully received.', type: [ProductDto]})
   @Get('catalog/type/:type')
   async getCatalogType(@Param('type') type: ProductType,
                        @Query('page') page: number,
-                       @Query('limit') limit: number): Promise<ProductInterface[]>{
+                       @Query('limit') limit: number): Promise<ProductDto[]>{
     return this.productService.getCatalogType(type, page, limit);
   }
 
-  @ApiOkResponse({description: 'Products was successfully found.', type: [ProductInterface]})
+  @ApiOkResponse({description: 'Products was successfully found.', type: [ProductDto]})
   @ApiNotFoundResponse({description: 'Products was not found.'})
   @Get('catalog/search')
-  async search(@Query('request') request: string): Promise<ProductInterface[]>{
+  async search(@Query('request') request: string): Promise<ProductDto[]>{
     return this.productService.search(request);
   }
 
-  @ApiCreatedResponse({description: 'Product was successfully created.', type: ProductInterface})
+  @ApiCreatedResponse({description: 'Product was successfully created.', type: ProductDto})
   @ApiBadRequestResponse({description: 'Invalid product data.'})
+  @ApiUnauthorizedResponse({description: 'User is not authorized.'})
+  @ApiForbiddenResponse({description: 'For manager use only.'})
   @Post()
-  async addProduct(@Body() product: ProductDto): Promise<ProductInterface>{
+  @UseGuards(new AuthGuard({
+    overrideGlobalClaimValidators: async (
+      globalValidators: SessionClaimValidator[],
+    ) => [
+      ...globalValidators,
+      UserRoles.UserRoleClaim.validators.includes('manager'),
+    ],
+  }))
+  @ApiCookieAuth()
+  async addProduct(@Body() product: ProductCreateDto): Promise<ProductDto>{
     return this.productService.addProduct(product);
   }
 
-  @ApiOkResponse({description: 'Product was successfully found.', type: ProductInterface})
-  @ApiNotFoundResponse({description: 'Product not found.'})
+  @ApiOkResponse({description: 'Product was successfully found.', type: ProductDto})
+  @ApiNotFoundResponse({description: 'Invalid productId'})
   @Get('product/:productId')
-  async getProduct(@Param('productId') productId: string): Promise<ProductInterface>{
+  async getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<ProductDto>{
     return this.productService.getProduct(productId);
   }
 
-  @ApiOkResponse({description: 'Product was successfully updated.', type: ProductInterface})
+  @ApiOkResponse({description: 'Product was successfully updated.', type: ProductDto})
   @ApiBadRequestResponse({description: 'Invalid product data.'})
+  @ApiNotFoundResponse({description: 'Invalid productId.'})
+  @ApiUnauthorizedResponse({description: 'User is not authorized.'})
+  @ApiForbiddenResponse({description: 'For manager use only.'})
   @Put('product/:productId')
-  async updateProduct(@Param('productId') productId: string, @Body() product: ProductUpdateDto): Promise<ProductInterface>{
+  @UseGuards(new AuthGuard({
+    overrideGlobalClaimValidators: async (
+      globalValidators: SessionClaimValidator[],
+    ) => [
+      ...globalValidators,
+      UserRoles.UserRoleClaim.validators.includes('manager'),
+    ],
+  }))
+  @ApiCookieAuth()
+  async updateProduct(@Param('productId', ParseUUIDPipe) productId: string, @Body() product: ProductUpdateDto): Promise<ProductDto>{
     return this.productService.updateProduct(productId, product);
   }
 
   @ApiOkResponse({description: 'Product was successfully deleted.'})
-  @ApiBadRequestResponse({description: 'Invalid productId.'})
+  @ApiNotFoundResponse({description: 'Invalid productId.'})
+  @ApiUnauthorizedResponse({description: 'User is not authorized.'})
+  @ApiForbiddenResponse({description: 'For manager use only.'})
   @Delete('product/:productId')
-  async deleteProduct(@Param('productId') productName: string){
+  @UseGuards(new AuthGuard({
+    overrideGlobalClaimValidators: async (
+      globalValidators: SessionClaimValidator[],
+    ) => [
+      ...globalValidators,
+      UserRoles.UserRoleClaim.validators.includes('manager'),
+    ],
+  }))
+  @ApiCookieAuth()
+  async deleteProduct(@Param('productId', ParseUUIDPipe) productName: string){
     await this.productService.deleteProduct(productName);
   }
 
-  @ApiCreatedResponse({description: 'Product was successfully created.', type: ProductInterface})
+  @ApiCreatedResponse({description: 'Product was successfully created.', type: UniqueProductDto})
   @ApiBadRequestResponse({description: 'Invalid product data.'})
+  @ApiNotFoundResponse({description: 'Invalid productId.'})
   @Post('unique')
-  async addUniqueProduct(@Body() product: UniqueProductDto): Promise<UniqueProductInterface>{
+  async addUniqueProduct(@Body() product: UniqueProductCreateDto): Promise<UniqueProductDto>{
     return this.productService.addUniqueProduct(product);
   }
 
-  @ApiOkResponse({description: 'Product was successfully found.', type: ProductInterface})
-  @ApiNotFoundResponse({description: 'Product not found.'})
+  @ApiOkResponse({description: 'Product was successfully found.', type: UniqueProductDto})
+  @ApiNotFoundResponse({description: 'Invalid productId.'})
   @Get('unique/:productId')
-  async getUniqueProduct(@Param('productId') productId: string): Promise<UniqueProductInterface>{
+  async getUniqueProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<UniqueProductDto>{
     return this.productService.getUniqueProduct(productId);
   }
 
+  @ApiOkResponse({description: 'Product was successfully found.', type: UniqueProductDto})
+  @ApiNotFoundResponse({description: 'Invalid productId.'})
+  @Put('unique/:productId')
+  async updateUniqueProduct(@Param('productId', ParseUUIDPipe) productId: string, @Body() product: UniqueProductCreateDto): Promise<UniqueProductDto>{
+    return this.productService.updateUniqueProduct(productId, product);
+  }
+
   @ApiOkResponse({description: 'Product was successfully deleted.'})
-  @ApiBadRequestResponse({description: 'Invalid productId.'})
+  @ApiNotFoundResponse({description: 'Invalid productId.'})
+  @ApiUnauthorizedResponse({description: 'User is not authorized.'})
+  @ApiForbiddenResponse({description: 'For manager use only.'})
   @Delete('unique/:productId')
-  async deleteUniqueProduct(@Param('productId') productId: string){
+  @UseGuards(new AuthGuard({
+    overrideGlobalClaimValidators: async (
+      globalValidators: SessionClaimValidator[],
+    ) => [
+      ...globalValidators,
+      UserRoles.UserRoleClaim.validators.includes('manager'),
+    ],
+  }))
+  @ApiCookieAuth()
+  async deleteUniqueProduct(@Param('productId', ParseUUIDPipe) productId: string){
     await this.productService.deleteUniqueProduct(productId);
   }
 
-  @ApiCreatedResponse({description: 'Special was successfully created.', type: SpecialInterface})
+  @ApiCreatedResponse({description: 'Special was successfully created.', type: SpecialDto})
   @ApiBadRequestResponse({description: 'Invalid special data.'})
+  @ApiUnauthorizedResponse({description: 'User is not authorized.'})
+  @ApiForbiddenResponse({description: 'For manager use only.'})
   @Post('specials')
-  async addNewSpecialProduct(@Body() special: NewSpecialDto): Promise<SpecialInterface>{
+  @UseGuards(new AuthGuard({
+    overrideGlobalClaimValidators: async (
+      globalValidators: SessionClaimValidator[],
+    ) => [
+      ...globalValidators,
+      UserRoles.UserRoleClaim.validators.includes('manager'),
+    ],
+  }))
+  @ApiCookieAuth()
+  async addNewSpecialProduct(@Body() special: NewSpecialDto): Promise<SpecialDto>{
     return this.productService.addNewSpecialProduct(special);
   }
 
-  @ApiCreatedResponse({description: 'Special was successfully created.', type: SpecialInterface})
+  @ApiCreatedResponse({description: 'Special was successfully created.', type: SpecialDto})
   @ApiBadRequestResponse({description: 'Invalid special data.'})
+  @ApiNotFoundResponse({description: 'Invalid productId.'})
+  @ApiUnauthorizedResponse({description: 'User is not authorized.'})
+  @ApiForbiddenResponse({description: 'For manager use only.'})
   @Post('specials/:productId')
-  async addSpecialProduct(@Param('productId') productName: string, @Body() special: ExistingSpecialDto): Promise<SpecialInterface>{
-    return this.productService.addSpecialProduct(productName, special);
+  @UseGuards(new AuthGuard({
+    overrideGlobalClaimValidators: async (
+      globalValidators: SessionClaimValidator[],
+    ) => [
+      ...globalValidators,
+      UserRoles.UserRoleClaim.validators.includes('manager'),
+    ],
+  }))
+  @ApiCookieAuth()
+  async addSpecialProduct(@Param('productId', ParseUUIDPipe) productId: string, @Body() special: ExistingSpecialDto): Promise<SpecialDto>{
+    return this.productService.addSpecialProduct(productId, special);
   }
 
   @ApiOkResponse({description: 'Special was successfully deleted.'})
-  @ApiBadRequestResponse({description: 'Invalid specialId.'})
+  @ApiNotFoundResponse({description: 'Invalid specialId.'})
+  @ApiUnauthorizedResponse({description: 'User is not authorized.'})
+  @ApiForbiddenResponse({description: 'For manager use only.'})
   @Delete('specials/:specialId/delete')
-  async deleteSpecialProduct(@Param('specialId') specialId: string){
+  @UseGuards(new AuthGuard({
+    overrideGlobalClaimValidators: async (
+      globalValidators: SessionClaimValidator[],
+    ) => [
+      ...globalValidators,
+      UserRoles.UserRoleClaim.validators.includes('manager'),
+    ],
+  }))
+  @ApiCookieAuth()
+  async deleteSpecialProduct(@Param('specialId', ParseUUIDPipe) specialId: string){
     await this.productService.deleteSpecialProduct(specialId);
   }
 
   @ApiOkResponse({description: 'Special was successfully deleted.'})
-  @ApiBadRequestResponse({description: 'Invalid specialId.'})
+  @ApiNotFoundResponse({description: 'Invalid specialId.'})
+  @ApiUnauthorizedResponse({description: 'User is not authorized.'})
+  @ApiForbiddenResponse({description: 'For manager use only.'})
   @Delete('specials/:specialId/delete-with-product')
-  async deleteSpecialProductWithProduct(@Param('specialId') specialId: string){
+  @UseGuards(new AuthGuard({
+    overrideGlobalClaimValidators: async (
+      globalValidators: SessionClaimValidator[],
+    ) => [
+      ...globalValidators,
+      UserRoles.UserRoleClaim.validators.includes('manager'),
+    ],
+  }))
+  @ApiCookieAuth()
+  async deleteSpecialProductWithProduct(@Param('specialId', ParseUUIDPipe) specialId: string){
     await this.productService.deleteSpecialProductWithProduct(specialId);
   }
 
-  @ApiOkResponse({description: 'Specials was successfully received.', type: [SpecialInterface]})
+  @ApiOkResponse({description: 'Specials was successfully received.', type: [SpecialDto]})
+  @ApiNotFoundResponse({description: 'N0 specials'})
   @Get('specials')
-  async getSpecialProducts(): Promise<SpecialInterface[]>{
+  async getSpecialProducts(): Promise<SpecialDto[]>{
     return this.productService.getSpecialProducts();
   }
 
-  @ApiOkResponse({description: 'Special was successfully updated.', type: SpecialInterface})
+  @ApiOkResponse({description: 'Special was successfully updated.', type: SpecialDto})
   @ApiBadRequestResponse({description: 'Invalid special data.'})
+  @ApiNotFoundResponse({description: 'Invalid specialId.'})
+  @ApiUnauthorizedResponse({description: 'User is not authorized.'})
+  @ApiForbiddenResponse({description: 'For manager use only.'})
   @Put('specials/:specialId')
-  async updateSpecialProduct(@Param('specialId') specialId: string, @Body() special: ExistingSpecialDto): Promise<SpecialInterface>{
+  @UseGuards(new AuthGuard({
+    overrideGlobalClaimValidators: async (
+      globalValidators: SessionClaimValidator[],
+    ) => [
+      ...globalValidators,
+      UserRoles.UserRoleClaim.validators.includes('manager'),
+    ],
+  }))
+  @ApiCookieAuth()
+  async updateSpecialProduct(@Param('specialId', ParseUUIDPipe) specialId: string, @Body() special: ExistingSpecialDto): Promise<SpecialDto>{
     return this.productService.updateSpecialProduct(specialId, special);
   }
 }

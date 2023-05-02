@@ -1,17 +1,15 @@
-const getUser = async () => {
-    return await fetch(`/api/user?userId=15568b1c-96a5-48fb-90b4-bd75a94b0ec8`)
-        .then(response => response.json());
-}
-
 const container = document.getElementById('user-container');
 const template_users = document.getElementById("user-template");
 const template_error = document.getElementById("error-template");
 
-const loadUser = async () => {
+async function loadUser(){
     container.innerHTML = '' + '<img src="../images/loading.gif" width="200" height="200" alt="mask">';
 
     try {
-        const item = await getUser()
+        const response = await fetch(`/api/user`);
+        if (response.status === 401)
+            window.location.href = "/login";
+        const item = await response.json();
         container.innerHTML = '';
         const user = template_users.content.cloneNode(true);
         let p = user.querySelectorAll("p");
@@ -29,4 +27,7 @@ const loadUser = async () => {
     }
 }
 
-loadUser();
+async function logout(){
+    await supertokensEmailPassword.signOut()
+    window.location.reload();
+}

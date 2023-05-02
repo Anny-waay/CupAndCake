@@ -1,21 +1,21 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
-import { ProductInterface } from "./interfaces/product.interface";
 import { ProductDto } from "./dto/product.dto";
+import { ProductCreateDto } from "./dto/product.create.dto";
 import { NewSpecialDto } from "./dto/new-special.dto";
-import { SpecialInterface } from "./interfaces/special.interface";
+import { SpecialDto } from "./dto/special.dto";
 import { ExistingSpecialDto } from "./dto/existing-special.dto";
 import { ProductType } from "@prisma/client";
 import { PrismaService } from "../prisma.service";
 import { ProductUpdateDto } from "./dto/product.update.dto";
-import { UniqueProductInterface } from "./interfaces/unique-product.interface";
 import { UniqueProductDto } from "./dto/unique-product.dto";
+import { UniqueProductCreateDto } from "./dto/unique-product.create.dto";
 
 @Injectable()
 export class ProductsService {
 
   constructor(private prisma: PrismaService) {}
 
-  async getCatalog(page: number, limit: number): Promise<ProductInterface[]>{
+  async getCatalog(page: number, limit: number): Promise<ProductDto[]>{
     let catalog = await this.prisma.product.findMany({
       skip: (Number(page)-1) * Number(limit),
       take: Number(limit),
@@ -38,14 +38,14 @@ export class ProductsService {
     if (catalog.length == 0)
       throw new NotFoundException('No products in catalog');
 
-    let result = new Array<ProductInterface>();
+    let result = new Array<ProductDto>();
     for (const product of catalog){
-      result.push(new ProductInterface(product));
+      result.push(new ProductDto(product));
     }
     return result;
   }
 
-  async getCatalogType(type: ProductType, page: number, limit: number): Promise<ProductInterface[]>{
+  async getCatalogType(type: ProductType, page: number, limit: number): Promise<ProductDto[]>{
     let catalog = await this.prisma.product.findMany({
       skip: (Number(page)-1) * Number(limit),
       take: Number(limit),
@@ -69,14 +69,14 @@ export class ProductsService {
     if (catalog.length == 0)
       throw new NotFoundException('No products in catalog');
 
-    let result = new Array<ProductInterface>();
+    let result = new Array<ProductDto>();
     for (const product of catalog){
-      result.push(new ProductInterface(product));
+      result.push(new ProductDto(product));
     }
     return result;
   }
 
-  async search(request: string): Promise<ProductInterface[]>{
+  async search(request: string): Promise<ProductDto[]>{
     let products = await this.prisma.product.findMany({
       where: {
         special: null,
@@ -88,14 +88,14 @@ export class ProductsService {
     if (products.length == 0)
       throw new NotFoundException('Products not found');
 
-    let result = new Array<ProductInterface>();
+    let result = new Array<ProductDto>();
     for (const product of products){
-      result.push(new ProductInterface(product));
+      result.push(new ProductDto(product));
     }
     return result;
   }
 
-  async addProduct(productDto: ProductDto): Promise<ProductInterface>{
+  async addProduct(productDto: ProductCreateDto): Promise<ProductDto>{
     let product = await this.prisma.product.findUnique({
       where: {
         name : productDto.name
@@ -105,7 +105,7 @@ export class ProductsService {
       if (product.isActive)
         throw new BadRequestException('Product name should be unique!');
       else
-        return new ProductInterface(await this.prisma.product.update({
+        return new ProductDto(await this.prisma.product.update({
           where: {
             id: product.id
           },
@@ -120,7 +120,7 @@ export class ProductsService {
         }))
     }
 
-    return new ProductInterface(await this.prisma.product.create({
+    return new ProductDto(await this.prisma.product.create({
       data: {
         name: productDto.name,
         type: productDto.type,
@@ -133,19 +133,17 @@ export class ProductsService {
     }))
   }
 
-  async getProduct(productId: string): Promise<ProductInterface>{
-    let product = await this.prisma.product.findUnique({
+  async getProduct(productId: string): Promise<ProductDto>{
+    let product = await this.prisma.product.findUniqueOrThrow({
       where: {
         id: productId
       }
     });
-    if (product == null)
-      throw new BadRequestException('Invalid productId')
-    return new ProductInterface(product)
+    return new ProductDto(product)
   }
 
-  async updateProduct(productId: string, productDto: ProductUpdateDto): Promise<ProductInterface>{
-    return new ProductInterface(await this.prisma.product.update({
+  async updateProduct(productId: string, productDto: ProductUpdateDto): Promise<ProductDto>{
+    return new ProductDto(await this.prisma.product.update({
       where: {
         id: productId
       },
@@ -169,8 +167,8 @@ export class ProductsService {
       }
     })
   }
-  async addUniqueProduct(productDto: UniqueProductDto): Promise<UniqueProductInterface>{
-    return new UniqueProductInterface(await this.prisma.uniqueProduct.create({
+  async addUniqueProduct(productDto: UniqueProductCreateDto): Promise<UniqueProductDto>{
+    return new UniqueProductDto(await this.prisma.uniqueProduct.create({
           data: {
             type: productDto.type,
             biscuit: productDto.biscuit,
@@ -186,15 +184,33 @@ export class ProductsService {
         }))
   }
 
-  async getUniqueProduct(productId: string): Promise<UniqueProductInterface>{
-    let product = await this.prisma.uniqueProduct.findUnique({
+  async getUniqueProduct(productId: string): Promise<UniqueProductDto>{
+    let product = await this.prisma.uniqueProduct.findUniqueOrThrow({
       where: {
         id: productId
       }
     });
-    if (product == null)
-      throw new BadRequestException('Invalid productId')
-    return new UniqueProductInterface(product)
+    return new UniqueProductDto(product)
+  }
+
+  async updateUniqueProduct(productId: string, productDto: UniqueProductCreateDto): Promise<UniqueProductDto>{
+    return new UniqueProductDto(await this.prisma.uniqueProduct.update({
+      where:{
+        id: productId
+      },
+      data: {
+        type: productDto.type,
+        biscuit: productDto.biscuit,
+        cream: productDto.cream,
+        filling: productDto.filling,
+        design: productDto.design,
+        price: productDto.price,
+        composition: productDto.composition,
+        weight: productDto.weight,
+        calories: productDto.calories,
+        picture: productDto.picture,
+      }
+    }))
   }
 
   async deleteUniqueProduct(productId: string){
@@ -204,7 +220,7 @@ export class ProductsService {
       }
     })
   }
-  async addNewSpecialProduct(specialDto: NewSpecialDto): Promise<SpecialInterface>{
+  async addNewSpecialProduct(specialDto: NewSpecialDto): Promise<SpecialDto>{
     let exProduct = await this.prisma.product.findUnique({
       where: {
         name : specialDto.name
@@ -224,7 +240,7 @@ export class ProductsService {
         picture: specialDto.picture
       }
     })
-    return new SpecialInterface(await this.prisma.special.create({
+    return new SpecialDto(await this.prisma.special.create({
       data: {
         product_id: product.id,
         new_price: specialDto.new_price,
@@ -233,7 +249,7 @@ export class ProductsService {
     }), product)
   }
 
-  async addSpecialProduct(productId: string, specialDto: ExistingSpecialDto): Promise<SpecialInterface>{
+  async addSpecialProduct(productId: string, specialDto: ExistingSpecialDto): Promise<SpecialDto>{
     let special = await this.prisma.special.findUnique({
       where: {
         product_id: productId
@@ -249,10 +265,10 @@ export class ProductsService {
             id: productId
           },
           data:{
-            isActive: false,
+            isActive: true,
           }
         })
-      return new SpecialInterface(await this.prisma.special.create({
+      return new SpecialDto(await this.prisma.special.create({
         data: {
           product_id: productId,
           new_price: specialDto.new_price,
@@ -262,7 +278,7 @@ export class ProductsService {
     }
   }
 
-  async getSpecialProducts(): Promise<SpecialInterface[]>{
+  async getSpecialProducts(): Promise<SpecialDto[]>{
     let specials = await this.prisma.special.findMany({
       where: {
         product:{
@@ -278,15 +294,15 @@ export class ProductsService {
     });
     if (specials == null || specials.length == 0)
       throw new NotFoundException('No specials now.');
-    let result = new Array<SpecialInterface>();
+    let result = new Array<SpecialDto>();
     for (const special of specials){
-      result.push(new SpecialInterface(special, special.product))
+      result.push(new SpecialDto(special, special.product))
     }
     return result
   }
 
-  async updateSpecialProduct(productId: string, specialDto: ExistingSpecialDto): Promise<SpecialInterface>{
-    let special = await this.prisma.special.findUnique({
+  async updateSpecialProduct(productId: string, specialDto: ExistingSpecialDto): Promise<SpecialDto>{
+    let special = await this.prisma.special.findUniqueOrThrow({
       where: {
         product_id : productId
       },
@@ -294,8 +310,7 @@ export class ProductsService {
         product: true
       }
     });
-    if (special == null)
-      throw new BadRequestException('Invalid productId');
+
     if (!special.product.isActive)
       await this.prisma.product.update({
         where: {
@@ -305,7 +320,7 @@ export class ProductsService {
           isActive: false,
         }
       })
-    return new SpecialInterface(await this.prisma.special.update({
+    return new SpecialDto(await this.prisma.special.update({
       where:{
         product_id : productId
       },

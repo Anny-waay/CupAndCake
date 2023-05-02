@@ -1,5 +1,6 @@
-import { Controller, Get, Post, Render } from "@nestjs/common";
+import { Controller, Get, Post, Render, Req, Res } from "@nestjs/common";
 import { AppService } from './app.service';
+import Session from "supertokens-node/recipe/session";
 
 @Controller()
 export class AppController {
@@ -93,21 +94,26 @@ export class AppController {
 
   @Get('/account')
   @Render('account')
-  account() {
-    return { title: 'Личный кабинет'};
-  }
-
-  @Post('/login')
-  @Render('account')
-  login() {
+  async account() {
     return {
       title: 'Личный кабинет',
-      isAuthorized: true};
+    };
+  }
+
+  @Get('/login')
+  @Render('login')
+  login() {
+    return { title: 'Личный кабинет'};
+  }
+  @Get('/sign-up')
+  @Render('signUp')
+  signUp() {
+    return { title: 'Личный кабинет'};
   }
 
   @Get('/constructor')
   @Render('constructor')
   construct() {
-    return { title: 'Конструктор десертов'};
+    return { title: 'Конструктор десертов' };
   }
 }

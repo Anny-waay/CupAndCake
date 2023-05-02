@@ -1,7 +1,9 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Product } from "@prisma/client";
+import { Special } from "@prisma/client";
+import { ProductDto } from "./product.dto";
 
-export class ProductInterface {
+export class SpecialDto {
+
   @ApiProperty({
     description: 'product id',
     example: "c3fba430-f60a-41c5-9430-5275ec392499"
@@ -13,12 +15,6 @@ export class ProductInterface {
     example: "Клубничный торт"
   })
   name: string;
-
-  @ApiProperty({
-    description: 'price',
-    example: 3299
-  })
-  price: number;
 
   @ApiProperty({
     description: 'composition of the product',
@@ -39,6 +35,18 @@ export class ProductInterface {
   calories: number;
 
   @ApiProperty({
+    description: 'usual price',
+    example: 3299
+  })
+  prevPrice: number;
+
+  @ApiProperty({
+    description: 'new price(sale)',
+    example: 1999
+  })
+  newPrice: number;
+
+  @ApiProperty({
     description: 'picture of product',
     example: "images/strawberry_cake.jpeg"
   })
@@ -49,14 +57,14 @@ export class ProductInterface {
     example: true
   })
   isActive: boolean;
-
-  constructor(product : Product) {
-    this.id = product.id
+  constructor(special : Special, product : ProductDto) {
+    this.id = special.id
     this.name = product.name
     this.composition = product.composition
     this.weight = product.weight
     this.calories = product.calories
-    this.price = product.price
+    this.prevPrice = product.price
+    this.newPrice = special.new_price
     this.picture = product.picture
     this.isActive = product.isActive
   }

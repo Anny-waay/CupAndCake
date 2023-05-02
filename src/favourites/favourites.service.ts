@@ -2,17 +2,28 @@ import {
   BadRequestException,
   Injectable, NotFoundException
 } from "@nestjs/common";
-import { ProductInterface } from "../products/interfaces/product.interface";
-import { UniqueProductInterface } from "../products/interfaces/unique-product.interface";
+import { ProductDto } from "../products/dto/product.dto";
+import { UniqueProductDto } from "../products/dto/unique-product.dto";
 import { PrismaService } from "../prisma.service";
-import { SpecialInterface } from "../products/interfaces/special.interface";
+import { SpecialDto } from "../products/dto/special.dto";
+import { FavouritesDto } from "./dto/favourites.dto";
 
 @Injectable()
 export class FavouritesService {
 
   constructor(private prisma: PrismaService) {}
 
-  async getProducts(userId: string): Promise<ProductInterface[]> {
+  async getFavourites(userId: string): Promise<FavouritesDto> {
+    let products = await this.getProducts(userId);
+    let specials = await this.getSpecials(userId);
+    let uniques = await this.getUniqueProducts(userId);
+
+    if (products.length == 0 && specials.length == 0 && uniques.length == 0)
+      throw new NotFoundException('No products in favourites');
+    return new FavouritesDto(products, specials, uniques)
+  }
+
+  private async getProducts(userId: string): Promise<ProductDto[]> {
     let products = await this.prisma.favourites.findMany({
       where: {
         user_id: userId,
@@ -36,16 +47,14 @@ export class FavouritesService {
         product: true
       }
     });
-    if (products == null || products.length == 0)
-      throw new NotFoundException('No catalog products in favourites')
-    let result = new Array<ProductInterface>();
+    let result = new Array<ProductDto>();
     for (const product of products){
-      result.push(new ProductInterface(product.product));
+      result.push(new ProductDto(product.product));
     }
     return result;
   }
 
-  async getSpecials(userId: string): Promise<SpecialInterface[]> {
+  private async getSpecials(userId: string): Promise<SpecialDto[]> {
     let products = await this.prisma.favourites.findMany({
       where: {
         user_id: userId,
@@ -75,16 +84,31 @@ export class FavouritesService {
         }
       }
     });
-    if (products == null || products.length == 0)
-      throw new NotFoundException('No catalog products in favourites')
-    let result = new Array<SpecialInterface>();
+    let result = new Array<SpecialDto>();
     for (const product of products){
-      result.push(new SpecialInterface(product.product.special, product.product));
+      result.push(new SpecialDto(product.product.special, product.product));
     }
     return result;
   }
 
-  async addProduct(userId: string, productId: string): Promise<ProductInterface> {
+  private async getUniqueProducts(userId: string): Promise<UniqueProductDto[]> {
+    let products = await this.prisma.favourites.findMany({
+      where: {
+        user_id: userId,
+        product_id: null
+      },
+      select:{
+        unique_product: true
+      }
+    });
+    let result = new Array<UniqueProductDto>();
+    for (const product of products){
+      result.push(new UniqueProductDto(product.unique_product));
+    }
+    return result;
+  }
+
+  async addProduct(userId: string, productId: string): Promise<ProductDto> {
     let favourites = await this.prisma.favourites.findFirst({
       where:{
         user_id: userId,
@@ -93,13 +117,11 @@ export class FavouritesService {
     })
     if (favourites != null)
       throw new BadRequestException('This product is already in favourites')
-    let product = await this.prisma.product.findUnique({
+    let product = await this.prisma.product.findUniqueOrThrow({
       where: {
         id: productId
       }
     });
-    if (product == null)
-      throw new BadRequestException('Invalid productId')
     await this.prisma.favourites.create({
       data:{
         user_id: userId,
@@ -107,11 +129,11 @@ export class FavouritesService {
       }
       }
     )
-    return new ProductInterface(product)
+    return new ProductDto(product)
   }
 
   async deleteProduct(userId: string, productId: string) {
-    let favourites = await this.prisma.favourites.findFirst({
+    let favourites = await this.prisma.favourites.findFirstOrThrow({
       where:{
         user_id: userId,
         product_id: productId
@@ -125,26 +147,7 @@ export class FavouritesService {
     )
   }
 
-  async getUniqueProducts(userId: string): Promise<UniqueProductInterface[]> {
-    let products = await this.prisma.favourites.findMany({
-      where: {
-        user_id: userId,
-        product_id: null
-      },
-      select:{
-        unique_product: true
-      }
-    });
-    if (products == null || products.length == 0)
-      throw new NotFoundException('No catalog products in favourites')
-    let result = new Array<UniqueProductInterface>();
-    for (const product of products){
-      result.push(new UniqueProductInterface(product.unique_product));
-    }
-    return result;
-  }
-
-  async addUniqueProduct(userId: string, productId: string): Promise<UniqueProductInterface> {
+  async addUniqueProduct(userId: string, productId: string): Promise<UniqueProductDto> {
     let favourites = await this.prisma.favourites.findFirst({
       where:{
         user_id: userId,
@@ -153,13 +156,11 @@ export class FavouritesService {
     })
     if (favourites != null)
       throw new BadRequestException('This product is already in favourites')
-    let product = await this.prisma.uniqueProduct.findUnique({
+    let product = await this.prisma.uniqueProduct.findUniqueOrThrow({
       where: {
         id: productId
       }
     });
-    if (product == null)
-      throw new BadRequestException('Invalid productId')
     await this.prisma.favourites.create({
         data:{
           user_id: userId,
@@ -167,11 +168,11 @@ export class FavouritesService {
         }
       }
     )
-    return new UniqueProductInterface(product)
+    return new UniqueProductDto(product)
   }
 
   async deleteUniqueProduct(userId: string, productId: string) {
-    let favourites = await this.prisma.favourites.findFirst({
+    let favourites = await this.prisma.favourites.findFirstOrThrow({
       where:{
         user_id: userId,
         unique_product_id: productId

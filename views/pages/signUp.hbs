@@ -1,0 +1,25 @@
+<main>
+  <form class="user-login" method="POST" action="/login">
+    <h2>Регистрация</h2>
+    <label for="name"><b>Имя</b>
+      <input type="text" id="name" placeholder="Введите имя" name="name" required>
+    </label>
+
+    <label for="phone_number"><b>Номер телефона</b>
+      <input type="text" id="phone_number" placeholder="Введите номер телефона" name="phone_number" required>
+    </label>
+
+    <label for="email"><b>Email</b>
+      <input type="email" id="email" placeholder="Введите Email" name="email" required>
+    </label>
+
+    <label for="password"><b>Пароль</b>
+      <input type="password" id="password" placeholder="Введите пароль" name="password" required>
+    </label>
+
+    <button type="submit" class="btn-oval">Зарегистрироваться</button>
+    <a href="/login">Войти</a>
+  </form>
+</main>
+{{>supertokens}}
+<script type="text/javascript" src="scripts/signup.js"></script>

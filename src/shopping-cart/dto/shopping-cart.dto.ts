@@ -1,48 +1,9 @@
-import { ProductDto } from "../../products/dto/product.dto";
-import { DeliveryType, Order, OrderStatus, PaymentType } from "@prisma/client";
 import { ApiProperty } from "@nestjs/swagger";
-import { ShoppingCartSpecialDto } from "../../shopping-cart/dto/shopping-cart.special.dto";
-import { ShoppingCartProductDto } from "../../shopping-cart/dto/shopping-cart.product.dto";
-import { ShoppingCartUniqueDto } from "../../shopping-cart/dto/shopping-cart.unique.dto";
+import { ShoppingCartProductDto } from "./shopping-cart.product.dto";
+import { ShoppingCartUniqueDto } from "./shopping-cart.unique.dto";
+import { ShoppingCartSpecialDto } from "./shopping-cart.special.dto";
 
-export class OrderDto {
-
-  @ApiProperty({
-    description: 'product id',
-    example: "c3fba430-f60a-41c5-9430-5275ec392499"
-  })
-  id: string;
-
-  @ApiProperty({
-    description: 'creation date and time',
-    example: "2023-05-01T18:00:00.000Z"
-  })
-  creationDate: Date;
-
-  @ApiProperty({
-    description: 'payment type',
-    example: PaymentType.CREDIT_CARD
-  })
-  payment: PaymentType;
-
-  @ApiProperty({
-    description: 'delivery type',
-    example: DeliveryType.COURIER
-  })
-  delivery: DeliveryType;
-
-  @ApiProperty({
-    description: 'address for delivery',
-    example: "ул. Ломоносова, д. 20"
-  })
-  address: string;
-
-  @ApiProperty({
-    description: 'delivery date and time',
-    example: "2023-05-07T18:00:00.000Z"
-  })
-  deliveryDate: Date;
-
+export class ShoppingCartDto {
   @ApiProperty({
     description: 'special products in shopping cart',
     example: [
@@ -104,13 +65,8 @@ export class OrderDto {
     ]
   })
   uniqueProduct: ShoppingCartUniqueDto[]
-  constructor(order: Order, products: ShoppingCartProductDto[], specials: ShoppingCartSpecialDto[],  uniques: ShoppingCartUniqueDto[]) {
-    this.id = order.id
-    this.creationDate = order.creation_date
-    this.payment = order.payment
-    this.delivery = order.delivery
-    this.address = order.address
-    this.deliveryDate = order.devivery_date
+
+  constructor(products: ShoppingCartProductDto[], specials: ShoppingCartSpecialDto[],  uniques: ShoppingCartUniqueDto[]) {
     this.catalogProduct = products
     this.specialProduct = specials
     this.uniqueProduct = uniques

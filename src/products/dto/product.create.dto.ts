@@ -1,63 +1,60 @@
+import { ProductType } from "@prisma/client";
 import { ApiProperty } from "@nestjs/swagger";
-import { Product } from "@prisma/client";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
-export class ProductDto {
-  @ApiProperty({
-    description: 'product id',
-    example: "c3fba430-f60a-41c5-9430-5275ec392499"
-  })
-  id: string;
-
+export class ProductCreateDto {
   @ApiProperty({
     description: 'product name',
     example: "Клубничный торт"
   })
+  @IsNotEmpty()
+  @IsString()
   name: string;
+
+  @ApiProperty({
+    description: 'type of product',
+    example: ProductType.CAKE
+  })
+  @IsNotEmpty()
+  type: ProductType;
 
   @ApiProperty({
     description: 'price',
     example: 3299
   })
+  @IsNotEmpty()
+  @IsNumber()
   price: number;
 
   @ApiProperty({
     description: 'composition of the product',
     example: 'яйцо, мука, клубника, сливки'
   })
+  @IsNotEmpty()
+  @IsString()
   composition: string;
 
   @ApiProperty({
     description: 'weight of the product',
     example: 2000
   })
+  @IsNotEmpty()
+  @IsNumber()
   weight: number;
 
   @ApiProperty({
     description: 'calories',
     example: 347
   })
+  @IsNotEmpty()
+  @IsNumber()
   calories: number;
 
   @ApiProperty({
     description: 'picture of product',
     example: "images/strawberry_cake.jpeg"
   })
+  @IsNotEmpty()
+  @IsString()
   picture: string;
-
-  @ApiProperty({
-    description: 'availability of the product',
-    example: true
-  })
-  isActive: boolean;
-
-  constructor(product : Product) {
-    this.id = product.id
-    this.name = product.name
-    this.composition = product.composition
-    this.weight = product.weight
-    this.calories = product.calories
-    this.price = product.price
-    this.picture = product.picture
-    this.isActive = product.isActive
-  }
 }

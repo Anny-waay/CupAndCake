@@ -1,59 +1,118 @@
-import { Controller, Delete, Get, Param, Post } from "@nestjs/common";
-import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
-import { ProductInterface } from "../products/interfaces/product.interface";
+import { Controller, Delete, Get, Param, ParseUUIDPipe, Post, UseGuards } from "@nestjs/common";
+import {
+  ApiBadRequestResponse,
+  ApiCookieAuth,
+  ApiForbiddenResponse, ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiTags,
+  ApiUnauthorizedResponse
+} from "@nestjs/swagger";
+import { ProductDto } from "../products/dto/product.dto";
 import { ShoppingCartService } from "./shopping-cart.service";
-import { ShoppingCartProductInterface } from "./interfaces/shopping-cart.product.interface";
-import { ShoppingCartUniqueInterface } from "./interfaces/shopping-cart.unique.interface";
-import { ShoppingCartSpecialInterface } from "./interfaces/shopping-cart.special.interface";
+import { ShoppingCartProductDto } from "./dto/shopping-cart.product.dto";
+import { ShoppingCartUniqueDto } from "./dto/shopping-cart.unique.dto";
+import { AuthGuard } from "../auth/auth.guard";
+import { Session } from "../auth/session.decorator";
+import { SessionClaimValidator } from "supertokens-node/lib/build/recipe/session";
+import UserRoles from "supertokens-node/recipe/userroles";
+import { ShoppingCartDto } from "./dto/shopping-cart.dto";
 
 @ApiTags('shopping-cart')
 @Controller('api/shopping-cart')
 export class ShoppingCartController {
   constructor(private readonly shoppingCartService : ShoppingCartService) {}
 
-  @ApiOkResponse({description: 'Products from shopping cart was successfully received.', type: [ShoppingCartProductInterface]})
-  @Get('products')
-  getProducts(@Param('userId') userId: string): Promise<ShoppingCartProductInterface[]> {
-    return this.shoppingCartService.getProducts(userId);
+  @ApiOkResponse({description: 'Products from shopping cart was successfully received.', type: [ShoppingCartDto]})
+  @ApiUnauthorizedResponse({description: 'User is not authorized.'})
+  @ApiForbiddenResponse({description: 'For customer use only.'})
+  @Get()
+  @UseGuards(new AuthGuard({
+    overrideGlobalClaimValidators: async (
+      globalValidators: SessionClaimValidator[],
+    ) => [
+      ...globalValidators,
+      UserRoles.UserRoleClaim.validators.includes('customer'),
+    ],
+  }))
+  @ApiCookieAuth()
+  getShoppingCart(@Session() session): Promise<ShoppingCartDto> {
+    const userId = session.userId;
+    return this.shoppingCartService.getShoppingCart(userId);
   }
 
-  @ApiOkResponse({description: 'Products from shopping cart was successfully received.', type: [ShoppingCartSpecialInterface]})
-  @Get('products')
-  getSpecials(@Param('userId') userId: string): Promise<ShoppingCartSpecialInterface[]> {
-    return this.shoppingCartService.getSpecials(userId);
-  }
-
-  @ApiOkResponse({description: 'Product was successfully added to shopping cart.', type: [ProductInterface]})
-  @ApiBadRequestResponse({description: 'Invalid productId.'})
+  @ApiOkResponse({description: 'Product was successfully added to shopping cart.', type: [ShoppingCartProductDto]})
+  @ApiNotFoundResponse({description: 'Invalid productId.'})
+  @ApiUnauthorizedResponse({description: 'User is not authorized.'})
+  @ApiForbiddenResponse({description: 'For customer use only.'})
   @Post('products/:productId')
-  addProduct(@Param('userId') userId: string, @Param('productId') productId: string): Promise<ShoppingCartProductInterface> {
+  @UseGuards(new AuthGuard({
+    overrideGlobalClaimValidators: async (
+      globalValidators: SessionClaimValidator[],
+    ) => [
+      ...globalValidators,
+      UserRoles.UserRoleClaim.validators.includes('customer'),
+    ],
+  }))
+  @ApiCookieAuth()
+  addProduct(@Session() session, @Param('productId', ParseUUIDPipe) productId: string): Promise<ShoppingCartProductDto> {
+    const userId = session.userId;
     return this.shoppingCartService.addProduct(userId, productId);
   }
 
   @ApiOkResponse({description: 'Product was successfully deleted from favourites.'})
-  @ApiBadRequestResponse({description: 'Invalid productId.'})
+  @ApiNotFoundResponse({description: 'Invalid productId.'})
+  @ApiUnauthorizedResponse({description: 'User is not authorized.'})
+  @ApiForbiddenResponse({description: 'For customer use only.'})
   @Delete('products/:productId')
-  deleteProduct(@Param('userId') userId: string, @Param('productId') productId: string) {
+  @UseGuards(new AuthGuard({
+    overrideGlobalClaimValidators: async (
+      globalValidators: SessionClaimValidator[],
+    ) => [
+      ...globalValidators,
+      UserRoles.UserRoleClaim.validators.includes('customer'),
+    ],
+  }))
+  @ApiCookieAuth()
+  deleteProduct(@Session() session, @Param('productId', ParseUUIDPipe) productId: string) {
+    const userId = session.userId;
     return this.shoppingCartService.deleteProduct(userId, productId);
   }
 
-  @ApiOkResponse({description: 'Unique products from shopping cart was successfully received.', type: [ShoppingCartUniqueInterface]})
-  @Get('unique-products')
-  getUniqueProducts(@Param('userId') userId: string): Promise<ShoppingCartUniqueInterface[]> {
-    return this.shoppingCartService.getUniqueProducts(userId);
-  }
-
-  @ApiOkResponse({description: 'Unique product was successfully added to shopping cart.', type: [ShoppingCartUniqueInterface]})
-  @ApiBadRequestResponse({description: 'Invalid productId.'})
+  @ApiOkResponse({description: 'Unique product was successfully added to shopping cart.', type: [ShoppingCartUniqueDto]})
+  @ApiNotFoundResponse({description: 'Invalid productId.'})
+  @ApiUnauthorizedResponse({description: 'User is not authorized.'})
+  @ApiForbiddenResponse({description: 'For customer use only.'})
   @Post('unique-products/:productId')
-  addUniqueProduct(@Param('userId') userId: string, @Param('product_id') productId: string): Promise<ShoppingCartUniqueInterface> {
+  @UseGuards(new AuthGuard({
+    overrideGlobalClaimValidators: async (
+      globalValidators: SessionClaimValidator[],
+    ) => [
+      ...globalValidators,
+      UserRoles.UserRoleClaim.validators.includes('customer'),
+    ],
+  }))
+  @ApiCookieAuth()
+  addUniqueProduct(@Session() session, @Param('product_id', ParseUUIDPipe) productId: string): Promise<ShoppingCartUniqueDto> {
+    const userId = session.userId;
     return this.shoppingCartService.addUniqueProduct(userId, productId);
   }
 
   @ApiOkResponse({description: 'Unique product was successfully deleted from shopping cart.'})
-  @ApiBadRequestResponse({description: 'Invalid productId.'})
+  @ApiNotFoundResponse({description: 'Invalid productId.'})
+  @ApiUnauthorizedResponse({description: 'User is not authorized.'})
+  @ApiForbiddenResponse({description: 'For customer use only.'})
   @Delete('unique-products/:productId')
-  deleteUniqueProduct(@Param('userId') userId: string, @Param('productId') productId: string) {
+  @UseGuards(new AuthGuard({
+    overrideGlobalClaimValidators: async (
+      globalValidators: SessionClaimValidator[],
+    ) => [
+      ...globalValidators,
+      UserRoles.UserRoleClaim.validators.includes('customer'),
+    ],
+  }))
+  @ApiCookieAuth()
+  deleteUniqueProduct(@Session() session, @Param('productId', ParseUUIDPipe) productId: string) {
+    const userId = session.userId;
     return this.shoppingCartService.deleteUniqueProduct(userId, productId);
   }
 }

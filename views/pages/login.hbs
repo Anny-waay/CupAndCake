@@ -1,0 +1,17 @@
+<main>
+  <form class="user-login" method="POST" action="/login">
+    <h2>Войти</h2>
+    <label for="email"><b>Email</b>
+      <input type="email" id="email" placeholder="Введите Email" name="email" required>
+    </label>
+
+    <label for="psw"><b>Пароль</b>
+      <input type="password" id="password" placeholder="Введите пароль" name="password" required>
+    </label>
+
+    <button type="submit" class="btn-oval">Войти</button>
+    <a href="/sign-up">Зарегистрироваться</a>
+  </form>
+</main>
+{{>supertokens}}
+<script type="text/javascript" src="scripts/login.js"></script>

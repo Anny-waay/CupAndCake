@@ -1,22 +1,30 @@
 import { BadRequestException, Injectable, NotFoundException, NotImplementedException } from "@nestjs/common";
-import { ProductInterface } from "../products/interfaces/product.interface";
-import { UniqueProductInterface } from "../products/interfaces/unique-product.interface";
 import { PrismaService } from "../prisma.service";
-import { SpecialInterface } from "../products/interfaces/special.interface";
-import { ShoppingCartProductInterface } from "./interfaces/shopping-cart.product.interface";
-import { ShoppingCartSpecialInterface } from "./interfaces/shopping-cart.special.interface";
-import { ShoppingCartUniqueInterface } from "./interfaces/shopping-cart.unique.interface";
+import { ShoppingCartProductDto } from "./dto/shopping-cart.product.dto";
+import { ShoppingCartSpecialDto } from "./dto/shopping-cart.special.dto";
+import { ShoppingCartUniqueDto } from "./dto/shopping-cart.unique.dto";
+import { ShoppingCartDto } from "./dto/shopping-cart.dto";
 
 @Injectable()
 export class ShoppingCartService {
 
   constructor(private prisma: PrismaService) {}
 
-  async getProducts(userId: string): Promise<ShoppingCartProductInterface[]> {
+  async getShoppingCart(userId: string): Promise<ShoppingCartDto> {
+    let products = await this.getProducts(userId, null);
+    let specials = await this.getSpecials(userId, null);
+    let uniques = await this.getUniqueProducts(userId, null);
+
+    if (products.length == 0 && specials.length == 0 && uniques.length == 0)
+      throw new NotFoundException('No products in shopping cart');
+    return new ShoppingCartDto(products, specials, uniques)
+  }
+
+  async getProducts(userId: string, orderId: string): Promise<ShoppingCartProductDto[]> {
     let products = await this.prisma.shoppingCart.findMany({
       where: {
         user_id: userId,
-        order_id: null,
+        order_id: orderId,
         unique_product_id: null,
         product:{
           OR: [
@@ -38,20 +46,18 @@ export class ShoppingCartService {
         amount: true
       }
     });
-    if (products == null || products.length == 0)
-      throw new NotFoundException('No catalog products in favourites')
-    let result = new Array<ShoppingCartProductInterface>();
+    let result = new Array<ShoppingCartProductDto>();
     for (const product of products){
-      result.push(new ShoppingCartProductInterface(product.product, product.amount));
+      result.push(new ShoppingCartProductDto(product.product, product.amount));
     }
     return result;
   }
 
-  async getSpecials(userId: string): Promise<ShoppingCartSpecialInterface[]> {
+  async getSpecials(userId: string, orderId: string): Promise<ShoppingCartSpecialDto[]> {
     let products = await this.prisma.shoppingCart.findMany({
       where: {
         user_id: userId,
-        order_id: null,
+        order_id: orderId,
         unique_product_id: null,
         product:{
           NOT: {
@@ -79,16 +85,33 @@ export class ShoppingCartService {
         amount: true
       }
     });
-    if (products == null || products.length == 0)
-      throw new NotFoundException('No catalog products in favourites')
-    let result = new Array<ShoppingCartSpecialInterface>();
+    let result = new Array<ShoppingCartSpecialDto>();
     for (const product of products){
-      result.push(new ShoppingCartSpecialInterface(product.product.special, product.product, product.amount));
+      result.push(new ShoppingCartSpecialDto(product.product.special, product.product, product.amount));
     }
     return result;
   }
 
-  async addProduct(userId: string, productId: string): Promise<ShoppingCartProductInterface> {
+  async getUniqueProducts(userId: string, orderId: string): Promise<ShoppingCartUniqueDto[]> {
+    let products = await this.prisma.shoppingCart.findMany({
+      where: {
+        user_id: userId,
+        order_id: orderId,
+        product_id: null
+      },
+      select:{
+        unique_product: true,
+        amount: true
+      }
+    });
+    let result = new Array<ShoppingCartUniqueDto>();
+    for (const product of products){
+      result.push(new ShoppingCartUniqueDto(product.unique_product, product.amount));
+    }
+    return result;
+  }
+
+  async addProduct(userId: string, productId: string): Promise<ShoppingCartProductDto> {
     let shoppingCart = await this.prisma.shoppingCart.findFirst({
       where:{
         user_id: userId,
@@ -108,7 +131,7 @@ export class ShoppingCartService {
           amount: true
         }
       })
-      return new ShoppingCartProductInterface(product.product, product.amount)
+      return new ShoppingCartProductDto(product.product, product.amount)
     }
     else{
       let product = await this.prisma.product.findUnique({
@@ -125,12 +148,12 @@ export class ShoppingCartService {
           }
         }
       )
-      return new ShoppingCartProductInterface(product, 1)
+      return new ShoppingCartProductDto(product, 1)
     }
   }
 
   async deleteProduct(userId: string, productId: string) {
-    let shoppingCart = await this.prisma.shoppingCart.findFirst({
+    let shoppingCart = await this.prisma.shoppingCart.findFirstOrThrow({
       where:{
         user_id: userId,
         product_id: productId
@@ -154,28 +177,7 @@ export class ShoppingCartService {
       )
   }
 
-  async getUniqueProducts(userId: string): Promise<ShoppingCartUniqueInterface[]> {
-    let products = await this.prisma.shoppingCart.findMany({
-      where: {
-        user_id: userId,
-        order_id: null,
-        product_id: null
-      },
-      select:{
-        unique_product: true,
-        amount: true
-      }
-    });
-    if (products == null || products.length == 0)
-      throw new NotFoundException('No catalog products in favourites')
-    let result = new Array<ShoppingCartUniqueInterface>();
-    for (const product of products){
-      result.push(new ShoppingCartUniqueInterface(product.unique_product, product.amount));
-    }
-    return result;
-  }
-
-  async addUniqueProduct(userId: string, productId: string): Promise<ShoppingCartUniqueInterface> {
+  async addUniqueProduct(userId: string, productId: string): Promise<ShoppingCartUniqueDto> {
     let shoppingCart = await this.prisma.shoppingCart.findFirst({
       where:{
         user_id: userId,
@@ -195,7 +197,7 @@ export class ShoppingCartService {
           amount: true
         }
       })
-      return new ShoppingCartUniqueInterface(product.unique_product, product.amount)
+      return new ShoppingCartUniqueDto(product.unique_product, product.amount)
     }
     else{
       let product = await this.prisma.uniqueProduct.findUnique({
@@ -212,12 +214,12 @@ export class ShoppingCartService {
           }
         }
       )
-      return new ShoppingCartUniqueInterface(product, 1)
+      return new ShoppingCartUniqueDto(product, 1)
     }
   }
 
   async deleteUniqueProduct(userId: string, productId: string) {
-    let shoppingCart = await this.prisma.shoppingCart.findFirst({
+    let shoppingCart = await this.prisma.shoppingCart.findFirstOrThrow({
       where:{
         user_id: userId,
         unique_product_id: productId
