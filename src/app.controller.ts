@@ -111,9 +111,15 @@ export class AppController {
     return { title: 'Личный кабинет'};
   }
 
-  @Get('/constructor')
-  @Render('constructor')
+  @Get('/unique')
+  @Render('unique')
   construct() {
     return { title: 'Конструктор десертов' };
+  }
+
+  @Get('/favourites')
+  @Render('favourites')
+  favourites() {
+    return { title: 'Избранное' };
   }
 }
