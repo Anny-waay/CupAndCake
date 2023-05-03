@@ -10,6 +10,7 @@ import { AuthModule } from "./auth/auth.module";
 import * as process from "process";
 import { PrismaClientExceptionFilter } from "nestjs-prisma";
 import { APP_FILTER, HttpAdapterHost } from "@nestjs/core";
+import { AppGatewayModule } from "./gateway/gateway.module";
 
 @Module({
   controllers: [AppController],
@@ -28,7 +29,9 @@ import { APP_FILTER, HttpAdapterHost } from "@nestjs/core";
     FavouritesModule,
     ShoppingCartModule,
     ProductsModule,
-    OrdersModule],
+    OrdersModule,
+    AppGatewayModule
+  ],
   providers: [
     {
       provide: APP_FILTER,

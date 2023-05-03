@@ -9,11 +9,12 @@ import { PrismaService } from "../prisma.service";
 import { ProductUpdateDto } from "./dto/product.update.dto";
 import { UniqueProductDto } from "./dto/unique-product.dto";
 import { UniqueProductCreateDto } from "./dto/unique-product.create.dto";
+import { AppGateway } from "../gateway/app.gateway";
 
 @Injectable()
 export class ProductsService {
 
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService, private readonly gateway: AppGateway,) {}
 
   async getCatalog(page: number, limit: number): Promise<ProductDto[]>{
     let catalog = await this.prisma.product.findMany({
@@ -240,13 +241,15 @@ export class ProductsService {
         picture: specialDto.picture
       }
     })
-    return new SpecialDto(await this.prisma.special.create({
+    let dto = new SpecialDto(await this.prisma.special.create({
       data: {
         product_id: product.id,
         new_price: specialDto.new_price,
         end_date: specialDto.end_date
       }
     }), product)
+    this.gateway.server.emit('newSpecial', dto);
+    return dto
   }
 
   async addSpecialProduct(productId: string, specialDto: ExistingSpecialDto): Promise<SpecialDto>{
@@ -268,13 +271,15 @@ export class ProductsService {
             isActive: true,
           }
         })
-      return new SpecialDto(await this.prisma.special.create({
+      let dto = new SpecialDto(await this.prisma.special.create({
         data: {
           product_id: productId,
           new_price: specialDto.new_price,
           end_date: specialDto.end_date
         }
       }), product)
+      this.gateway.server.emit('newSpecial', dto);
+      return dto
     }
   }
 
@@ -320,7 +325,7 @@ export class ProductsService {
           isActive: false,
         }
       })
-    return new SpecialDto(await this.prisma.special.update({
+    let dto = new SpecialDto(await this.prisma.special.update({
       where:{
         product_id : productId
       },
@@ -329,6 +334,8 @@ export class ProductsService {
         end_date: specialDto.end_date
       }
     }), new ProductDto(special.product))
+    this.gateway.server.emit('newSpecial', dto);
+    return dto
   }
 
   async deleteSpecialProduct(productId: string){
@@ -340,11 +347,11 @@ export class ProductsService {
   }
 
   async deleteSpecialProductWithProduct(productId: string){
-    await this.prisma.special.delete({
+    let special = await this.prisma.special.delete({
       where: {
         id: productId
       }
     });
-    await this.deleteProduct(productId);
+    await this.deleteProduct(special.product_id);
   }
 }
