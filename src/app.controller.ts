@@ -1,5 +1,6 @@
-import { Controller, Get, Post, Render } from "@nestjs/common";
+import { Controller, Get, Post, Render, Req, Res } from "@nestjs/common";
 import { AppService } from './app.service';
+import Session from "supertokens-node/recipe/session";
 
 @Controller()
 export class AppController {
@@ -10,8 +11,7 @@ export class AppController {
   index() {
     return {
       title: 'Cup&Cake',
-      isIndex: true,
-      specialOffers: this.appService.getSpecials()
+      isIndex: true
     };
   }
 
@@ -22,7 +22,7 @@ export class AppController {
       title: 'Каталог',
       isCatalog: true,
       catalog: "Меню",
-      products: this.appService.getProducts()
+      isAllProducts: true
     };
   }
 
@@ -33,7 +33,7 @@ export class AppController {
       title: 'Каталог',
       isCatalog: true,
       catalog: "Торты",
-      products: this.appService.getProducts()
+      type: "CAKE"
     };
   }
 
@@ -43,7 +43,8 @@ export class AppController {
     return {
       title: 'Каталог',
       isCatalog: true,
-      catalog: "Бенто-торты"
+      catalog: "Бенто-торты",
+      type: "BENTO"
     };
   }
 
@@ -53,7 +54,8 @@ export class AppController {
     return {
       title: 'Каталог',
       isCatalog: true,
-      catalog: "Капкейки"
+      catalog: "Капкейки",
+      type: "CUPCAKE"
     };
   }
 
@@ -63,7 +65,8 @@ export class AppController {
     return {
       title: 'Каталог',
       isCatalog: true,
-      catalog: "Пончики"
+      catalog: "Пончики",
+      type: "DONUT"
     };
   }
 
@@ -73,7 +76,8 @@ export class AppController {
     return {
       title: 'Каталог',
       isCatalog: true,
-      catalog: "Макарони"
+      catalog: "Макарони",
+      type: "MACARONI"
     };
   }
 
@@ -83,27 +87,33 @@ export class AppController {
     return {
       title: 'Каталог',
       isCatalog: true,
-      catalog: "Напитки"
+      catalog: "Напитки",
+      type: "DRINK"
     };
   }
 
   @Get('/account')
   @Render('account')
-  account() {
-    return { title: 'Личный кабинет'};
-  }
-
-  @Post('/login')
-  @Render('account')
-  login() {
+  async account() {
     return {
       title: 'Личный кабинет',
-      isAuthorized: true};
+    };
+  }
+
+  @Get('/login')
+  @Render('login')
+  login() {
+    return { title: 'Личный кабинет'};
+  }
+  @Get('/sign-up')
+  @Render('signUp')
+  signUp() {
+    return { title: 'Личный кабинет'};
   }
 
   @Get('/constructor')
   @Render('constructor')
   construct() {
-    return { title: 'Конструктор десертов'};
+    return { title: 'Конструктор десертов' };
   }
 }

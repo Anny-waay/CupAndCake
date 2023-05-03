@@ -1,23 +1,18 @@
-import { Injectable, NotImplementedException } from "@nestjs/common";
+import { BadRequestException, Injectable} from "@nestjs/common";
+import { PrismaService } from "../prisma.service";
 import { UserDto } from "./dto/user.dto";
-import { User } from "./interfaces/user.interface";
-import { LoginDto } from "./dto/login.dto";
 
 @Injectable()
 export class UserService {
-  async register(userDto: UserDto): Promise<User> {
-    throw new NotImplementedException();
-  }
 
-  async login(loginDto: LoginDto): Promise<User> {
-    throw new NotImplementedException();
-  }
+  constructor(private prisma: PrismaService) {}
 
-  async getUser(userId: string): Promise<User> {
-    throw new NotImplementedException();
-  }
-
-  async updateUser(userId: string, userDto: UserDto): Promise<User> {
-    throw new NotImplementedException();
+  async getUser(userId: string): Promise<UserDto> {
+    let user = await this.prisma.user.findUniqueOrThrow({
+      where: {
+        id:userId
+      }
+    })
+    return new UserDto(user)
   }
 }

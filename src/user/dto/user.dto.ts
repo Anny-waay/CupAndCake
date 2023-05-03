@@ -1,26 +1,27 @@
 import { ApiProperty } from "@nestjs/swagger";
-
+import { User } from "@prisma/client"
 export class UserDto {
   @ApiProperty({
     description: 'user name',
-    example: "Anne"
+    example: "Ann"
   })
   name:string;
 
   @ApiProperty({
-    description: 'user email',
+    description: 'phone number',
     example: "88888888888"
   })
   phoneNumber:string;
+
   @ApiProperty({
     description: 'user email',
     example: "user@mail.ru"
   })
   email:string;
 
-  @ApiProperty({
-    description: 'user password',
-    example: "aaaaaa"
-  })
-  password:string;
+  constructor(user: User) {
+    this.name = user.name;
+    this.phoneNumber = user.phone_number;
+    this.email = user.email;
+  }
 }

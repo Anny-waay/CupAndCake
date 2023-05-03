@@ -1,31 +1,35 @@
-import { Product } from "../../products/interfaces/product.interface";
-import { DeliveryType, OrderStatus, PaymentType } from "@prisma/client";
+import { DeliveryType, PaymentType } from "@prisma/client";
 import { ApiProperty } from "@nestjs/swagger";
+import { IsDateString, IsNotEmpty, IsString } from "class-validator";
 
-export class Order {
+export class OrderCreateDto {
   @ApiProperty({
     description: 'payment type',
     example: PaymentType.CREDIT_CARD
   })
+  @IsNotEmpty()
   payment: PaymentType;
 
   @ApiProperty({
     description: 'delivery type',
     example: DeliveryType.COURIER
   })
+  @IsNotEmpty()
   delivery: DeliveryType;
 
   @ApiProperty({
     description: 'address for delivery',
     example: "ул. Ломоносова, д. 20"
   })
+  @IsNotEmpty()
+  @IsString()
   address: string;
 
   @ApiProperty({
     description: 'delivery date and time',
-    example: Date.UTC(2023, 4, 15, 15, 20)
+    example: "2023-05-07T18:00:00.000Z"
   })
-  delivery_date: Date;
-
-  products: Product[];
+  @IsNotEmpty()
+  @IsDateString()
+  deliveryDate: Date;
 }

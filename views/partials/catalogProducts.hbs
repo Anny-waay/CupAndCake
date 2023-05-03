@@ -1,0 +1,27 @@
+<section id="products-container" class="product-cards">
+  <template id="product-template">
+    <div class="catalog-product-wrap">
+      <a class="block-link" href=""></a>
+      <div class="product-img">
+        <img id="product-pic" class="product" alt="Продукт">
+        <img class="wishlist-img" src="images/wishlist.png" alt="Cердце">
+      </div>
+      <div class="product-description">
+        <h4></h4>
+        <span></span>
+        <span> &#8381;</span><br>
+        <button class="btn-oval">В корзину</button>
+      </div>
+    </div>
+  </template>
+  <template id="error-template">
+    <p>В каталоге пока нет товаров</p>
+  </template>
+</section>
+
+<script src="scripts/catalog.js"></script>
+{{#if isAllProducts}}
+  <script type="text/javascript">getAllProducts();</script>
+{{else}}
+  <script type="text/javascript">getProducts("{{type}}");</script>
+{{/if}}

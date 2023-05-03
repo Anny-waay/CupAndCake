@@ -1,0 +1,20 @@
+<section id="specials-container" class="product-cards">
+  <template id='special-template'>
+    <div class="product-wrap">
+      <div class="product-img">
+        <img id="special-pic" class="product" alt="Товар">
+        <img class="wishlist-img" src="images/wishlist.png" alt="Сердце">
+      </div>
+      <div class="product-description">
+        <h4></h4>
+        <span class="prev-price"></span><span class="actual-price"></span><span class="actual-price"> &#8381;</span><br>
+        <button class="btn-oval">В корзину</button>
+      </div>
+    </div>
+  </template>
+  <template id="error-template">
+    <p>На данный момент акций нет</p>
+  </template>
+</section>
+<script src="scripts/specials.js"></script>
+<script type="text/javascript">getSpecials();</script>

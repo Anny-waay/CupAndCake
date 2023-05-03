@@ -1,32 +1,17 @@
-{{#if isAuthorized}}
-  <main>
-    <div id="user-container">
-      <template id="user-template">
-        <p class="user-info"></p>
-        <p class="user-info"></p>
-        <p class="user-info"></p>
-        <p class="user-info"></p>
-        <p class="user-info"></p>
-      </template>
-      <template id="error-template">
-        <p>Кажется вам не удалось войти...</p>
-      </template>
-    </div>
-  </main>
-  <script type="text/javascript" src="scripts/account.js"></script>
-{{else}}
-  <main>
-    <form class="user-login" method="POST" action="/login">
-      <h2>Login</h2>
-      <label for="email"><b>Email</b>
-        <input type="text" placeholder="Введите Email" name="email" required>
-      </label>
-
-      <label for="psw"><b>Password</b>
-        <input type="password" placeholder="Введите пароль" name="psw" required>
-      </label>
-
-      <button type="submit" class="btn-oval">Войти</button>
-    </form>
-  </main>
-{{/if}}
+<main>
+  <div id="user-container">
+    <template id="user-template">
+      <p class="user-info"></p>
+      <p class="user-info"></p>
+      <p class="user-info"></p>
+      <p class="user-info"></p>
+      <button onclick="logout()" class="btn-oval">Выйти</button>
+    </template>
+    <template id="error-template">
+      <p>Что-то пошло не так...</p>
+    </template>
+  </div>
+</main>
+<script type="text/javascript" src="scripts/account.js"></script>
+{{>supertokens}}
+<script>loadUser()</script>

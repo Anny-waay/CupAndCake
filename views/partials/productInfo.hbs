@@ -1,0 +1,23 @@
+<div class="popup" id="product-info-container">
+    <template id="product-info-template">
+      <div class="product-grid popup-content">
+        <div class="grid-product-name grid-text"></div>
+        <div class="grid-price grid-text"><span></span><span> &#8381;</span></div>
+        <div class="grid-composition grid-text"></div>
+        <div class="grid-calories grid-text"></div>
+        <div class="grid-weight grid-text"></div>
+        <div class="product-img grid-picture">
+          <img id="product-info-pic" alt="product" class="grid-img"/>
+          <button class="close-btn" onclick="hideProductInfo();">x</button>
+        </div>
+      </div>
+    </template>
+    <template id="product-info-error-template">
+      <div class="popup-content">
+        <p>Произошла ошибка...</p>
+        <button class="close-btn" onclick="hideProductInfo();">x</button>
+      </div>
+    </template>
+  </div>
+</div>
+<script src="scripts/product.js"></script>

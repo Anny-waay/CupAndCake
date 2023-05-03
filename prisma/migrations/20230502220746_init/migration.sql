@@ -39,8 +39,12 @@ CREATE TABLE "Product" (
     "id" UUID NOT NULL,
     "name" TEXT NOT NULL,
     "type" "ProductType" NOT NULL,
+    "composition" TEXT NOT NULL,
+    "weight" INTEGER NOT NULL,
+    "calories" INTEGER NOT NULL,
     "price" DOUBLE PRECISION NOT NULL,
     "picture" TEXT NOT NULL,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
 
     CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
 );
@@ -52,6 +56,9 @@ CREATE TABLE "UniqueProduct" (
     "biscuit" "Biscuit" NOT NULL,
     "cream" "Cream" NOT NULL,
     "filling" "Filling" NOT NULL,
+    "composition" TEXT NOT NULL,
+    "weight" INTEGER NOT NULL,
+    "calories" INTEGER NOT NULL,
     "design" TEXT NOT NULL,
     "price" DOUBLE PRECISION,
     "picture" TEXT NOT NULL,
@@ -85,6 +92,7 @@ CREATE TABLE "ShoppingCart" (
     "user_id" UUID NOT NULL,
     "product_id" UUID,
     "unique_product_id" UUID,
+    "amount" INTEGER NOT NULL DEFAULT 1,
     "order_id" UUID,
 
     CONSTRAINT "ShoppingCart_pkey" PRIMARY KEY ("id")

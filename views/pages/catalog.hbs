@@ -16,21 +16,8 @@
     <script type="text/javascript">displayLocation('menu');</script>
     <div class="text-columns-item catalog-items">
       <h2>{{catalog}}</h2>
-      <section class="product-cards">
-      {{#each products}}
-        <div class="catalog-product-wrap">
-          <div class="product-img">
-            <img class="product" src={{image}} alt="Продукт">
-            <img class="wishlist-img" src="images/wishlist.png" alt="Cердце">
-          </div>
-          <div class="product-description">
-            <h4>{{product}}</h4>
-            <span> {{price}} &#8381;</span><br>
-            <button class="btn-oval">В корзину</button>
-          </div>
-        </div>
-      {{/each}}
-      </section>
+      {{>catalogProducts}}
     </div>
+    {{>productInfo}}
   </div>
 </main>
