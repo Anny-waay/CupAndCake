@@ -33,7 +33,7 @@ async function displayShoppingCart() {
       if (favouritesRequest.status === 200){
         let favourites = await favouritesRequest.json();
         console.log(favourites)
-        if (favourites.catalogProduct.some(x => x.id === item.id)){
+        if (favourites.catalogProduct.some(x => x.id === item.product.id)){
           wishlist.src = "images/wishlist-red.png";
         }
       }
