@@ -6,11 +6,13 @@
         <img id="wishlist-btn" class="wishlist-img" alt="Cердце">
       </div>
       <div class="product-description">
-        <a class="block-link" href=""></a>
-        <h4></h4>
+        <div class="relative-position-container">
+          <a class="block-link" href=""></a>
+          <h4></h4>
+        </div>
         <span></span>
         <span> &#8381;</span><br>
-        <button class="btn-oval">В корзину</button>
+        <button id="shopping-cart-btn" class="btn-oval">В корзину</button>
       </div>
     </div>
   </template>
@@ -20,6 +22,7 @@
 </section>
 
 <script src="scripts/favourites.js"></script>
+<script src="scripts/shoppingCart.js"></script>
 <script src="scripts/catalog.js"></script>
 {{#if isAllProducts}}
   <script type="text/javascript">getAllProducts();</script>

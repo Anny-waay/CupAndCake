@@ -5,13 +5,13 @@ const template_error = document.getElementById("error-template");
 async function addProductsInfo(products){
   try {
     container.innerHTML = '';
-    let favouritesRequest = await getFavourites();
     for (const item of products){
       const product = template_product.content.cloneNode(true);
       let picture = product.getElementById('product-pic')
       picture.src = item.picture;
       let wishlist = product.getElementById('wishlist-btn')
       wishlist.src = "images/wishlist.png";
+      let favouritesRequest = await getFavourites();
       if (favouritesRequest.status === 200){
         let favourites = await favouritesRequest.json();
         console.log(favourites)
@@ -24,7 +24,8 @@ async function addProductsInfo(products){
       let span = product.querySelectorAll("span");
       span[0].textContent = item.price;
       let a = product.querySelectorAll("a");
-      a[0].href = `javascript:showProductInfo(\"${item.id}\")`
+      a[0].href = `javascript:showProductInfo(\"${item.id}\")`;
+      let button = product.getElementById("shopping-cart-btn");
       container.appendChild(product);
       wishlist.addEventListener("click", async function(){
         if (wishlist.getAttribute("src") === "images/wishlist.png"){
@@ -34,6 +35,9 @@ async function addProductsInfo(products){
         else{
           await deleteFromFavourites(item.id)
           wishlist.src = "images/wishlist.png"}
+      });
+      button.addEventListener("click", async function(){
+        await addProductToShoppingCart(item.id);
       });
     }
   } catch (e) {

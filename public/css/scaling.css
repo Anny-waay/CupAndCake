@@ -45,7 +45,7 @@
         width: calc(18px + 3vw);
         padding: 3px 4px 0 0;
     }
-    .img-container{
+    .relative-position-container{
         display: none;
     }
     .category-container{

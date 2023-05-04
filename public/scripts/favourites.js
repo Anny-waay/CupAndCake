@@ -36,7 +36,8 @@ async function displayFavourites(){
       span[0].textContent = item.price;
       span[4].textContent = "";
       let a = product.querySelectorAll("a");
-      a[0].href = `javascript:showProductInfo(\"${item.id}\")`
+      a[0].href = `javascript:showProductInfo(\"${item.id}\")`;
+      let button = product.getElementById("shopping-cart-btn");
       favourites_container.appendChild(product);
       wishlist.addEventListener("click", async function(){
         if (wishlist.getAttribute("src") === "images/wishlist.png"){
@@ -46,6 +47,9 @@ async function displayFavourites(){
         else{
           await deleteFromFavourites(item.id)
           wishlist.src = "images/wishlist.png"}
+      });
+      button.addEventListener("click", async function(){
+        await addProductToShoppingCart(item.id);
       });
     }
   } catch (e) {

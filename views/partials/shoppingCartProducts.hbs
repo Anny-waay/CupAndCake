@@ -2,7 +2,7 @@
   <template id='favourites-template'>
     <div class="product-wrap">
       <div class="product-img">
-        <img id="favourites-pic" class="product" alt="Товар">
+        <img id="cart-pic" class="product" alt="Товар">
         <img id="wishlist-btn" class="wishlist-img"  alt="Сердце">
       </div>
       <div class="product-description">
@@ -12,7 +12,7 @@
         </div>
         <span></span><span> &#8381;</span>
         <span class="prev-price"></span><span class="actual-price"></span><span class="actual-price"> &#8381;</span><br>
-        <button id="shopping-cart-btn" class="btn-oval">В корзину</button>
+        <button class="btn-oval">-</button><span></span><button class="btn-oval">+</button>
       </div>
     </div>
   </template>
@@ -23,4 +23,4 @@
 
 <script src="scripts/favourites.js"></script>
 <script src="scripts/shoppingCart.js"></script>
-<script type="text/javascript">displayFavourites();</script>
+<script type="text/javascript">displayShoppingCart();</script>

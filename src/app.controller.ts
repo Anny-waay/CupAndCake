@@ -122,4 +122,10 @@ export class AppController {
   favourites() {
     return { title: 'Избранное' };
   }
+
+  @Get('/shopping-cart')
+  @Render('shoppingCart')
+  shoppingCart() {
+    return { title: 'Избранное' };
+  }
 }
