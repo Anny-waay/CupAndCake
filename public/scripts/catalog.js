@@ -32,15 +32,20 @@ async function fillProductsTemplate(products){
       container.appendChild(product);
       wishlist.addEventListener("click", async function(){
         if (wishlist.getAttribute("src") === "images/wishlist.png"){
-          await addProductToFavourites(item.id);
-          wishlist.src = "images/wishlist-red.png"
+          let status = await addProductToFavourites(item.id);
+          if (status === 201)
+            wishlist.src = "images/wishlist-red.png"
+          if (status === 401)
+            window.alert("Авторизируйтесь, чтобы добавлять товары в избранное")
         }
         else{
           await deleteProductFromFavourites(item.id)
           wishlist.src = "images/wishlist.png"}
       });
       button.addEventListener("click", async function(){
-        await addProductToShoppingCart(item.id);
+        let status = await addProductToShoppingCart(item.id);
+        if (status === 401)
+          window.alert("Авторизируйтесь, чтобы добавлять товары в корзину")
       });
     }
   } catch (e) {

@@ -7,10 +7,11 @@ async function getFavourites(){
   });
 }
 
-async function addProductToFavourites(productId){
-  await fetch(`/api/favourites/products/${productId}`, {
+async function addProductToFavourites(productId) {
+  let response = await fetch(`/api/favourites/products/${productId}`, {
     method: 'POST'
   })
+  return response.status
 }
 
 async function deleteProductFromFavourites(productId){
@@ -22,6 +23,8 @@ async function deleteProductFromFavourites(productId){
 async function displayFavourites(){
   try{
     let favouritesRequest = await getFavourites();
+    if (favouritesRequest.status === 401)
+      throw new Error("Авторизируйтесь, чтобы добавлять товары в избраннное")
     let favourites = await favouritesRequest.json()
 
     for (const item of favourites.specialProduct){
@@ -84,13 +87,8 @@ async function displayFavourites(){
     }
   } catch (e) {
     const error = favourites_template_error.content.cloneNode(true);
-    let p = favourites_template_error.querySelectorAll('p');
-    console.log(e);
-    p.textContent = e.message
-    if (e.statusCode === 404)
-      p.textContent = "В избранном пока нет товаров"
-    if (e.statusCode === 401)
-      p.textContent = "Авторизуйтесь, чтобы добавлять продукты в избранное"
+    let p = error.querySelectorAll('p');
+    p[0].textContent = e.message
     while (favourites_container.firstChild) {
       favourites_container.removeChild(favourites_container.firstChild);
     }

@@ -7,7 +7,7 @@ body{
 header{
     position: sticky;
     top: 0;
-    z-index: 9998!important;
+    z-index: 100;
 }
 
 .container{
@@ -395,7 +395,7 @@ tr:nth-child(2n-1) td{
                          "calories weight";
 
     grid-template-columns: 43% 57%;
-    grid-template-rows: repeat(2, 15%) 45% 25%;
+    grid-template-rows: 20% 20% 35% 25%;
 }
 .grid-price{
     text-align: center;
@@ -441,8 +441,6 @@ tr:nth-child(2n-1) td{
 }
 
 .user-login{
-    width: 30%;
-    margin: 2% 35%;
     padding: 1%;
     background-color: #EDF3FF;
     color: #828DDF;
@@ -462,17 +460,38 @@ tr:nth-child(2n-1) td{
     margin: 5% 35%;
 }
 
+.user-signup{
+    padding: 1%;
+    background-color: #EDF3FF;
+    color: #828DDF;
+}
+
+.user-signup label{
+    width: 50%;
+    margin: 3% 25%;
+    display: block;
+}
+.user-signup input{
+    width: 100%;
+}
+
+.user-signup button{
+    width: 60%;
+    margin: 5% 20%;
+}
+
 .popup{
     width:100%;
     min-height:100%;
     background:rgba(0,0,0,.5);
     overflow:hidden;
-    position:fixed;
-    top:0px;
+    position: fixed;
+    top:0;
+    z-index: 200;
 }
 
 .popup-content{
-    margin:20% auto;
+    margin:10% auto;
     width:60%;
     height: 30vw;
     padding:10px;
@@ -500,4 +519,43 @@ tr:nth-child(2n-1) td{
     line-height: 0;
     text-decoration: none;
     cursor: pointer;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+.pagination-item{
+    color: black;
+    font-size: x-large;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-color: #6F78BF;
+    background: white;
+    font-family: 'Podkova', sans-serif;
+}
+.page-number{
+    color: black;
+    font-size: x-large;
+    text-transform: uppercase;
+    padding: 5px;
+    font-family: 'Podkova', sans-serif;
+}
+
+.shopping-cart-btn{
+    font-weight: bold;
+    font-size: xx-large;
+    text-transform: uppercase;
+    background-color: white;
+    border-color: #E3DEDF;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 10px;
+    padding: 1.5% 3%;
+}
+
+.shopping-cart-number{
+    font-weight: bold;
+    font-size: larger;
+    padding: 6px;
+    text-transform: uppercase;
 }

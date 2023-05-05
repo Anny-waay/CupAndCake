@@ -8,9 +8,10 @@ async function getShoppingCart(){
 }
 
 async function addProductToShoppingCart(productId){
-  await fetch(`/api/shopping-cart/products/${productId}`, {
+  let response = await fetch(`/api/shopping-cart/products/${productId}`, {
     method: 'POST'
   })
+  return response.status;
 }
 
 async function deleteProductFromShoppingCart(productId){
@@ -22,6 +23,8 @@ async function deleteProductFromShoppingCart(productId){
 async function displayShoppingCart() {
   try {
     let cartRequest = await getShoppingCart();
+    if (cartRequest.status === 401)
+      throw new Error("Авторизируйтесь, чтобы добавлять товары в корзину")
     let cart = await cartRequest.json()
 
     for (const item of cart.specialProduct) {
@@ -110,13 +113,8 @@ async function displayShoppingCart() {
     }
   } catch (e) {
     const error = favourites_template_error.content.cloneNode(true);
-    let p = favourites_template_error.querySelectorAll('p');
-    console.log(e);
-    p.textContent = e.message
-    if (e.statusCode === 404)
-      p.textContent = "В избранном пока нет товаров"
-    if (e.statusCode === 401)
-      p.textContent = "Авторизуйтесь, чтобы добавлять продукты в избранное"
+    let p = error.querySelectorAll('p');
+    p[0].textContent = e.message
     while (favourites_container.firstChild) {
       favourites_container.removeChild(favourites_container.firstChild);
     }

@@ -17,8 +17,12 @@
     <div class="text-columns-item catalog-items">
       <h2>{{catalog}}</h2>
       {{>catalogProducts}}
-      <button id="prev"><</button><span id="page-number"></span><button id="next">></button>
+      <div class="pagination">
+        <button id="prev" class="pagination-item"><</button>
+        <span id="page-number" class="page-number"></span>
+        <button id="next" class="pagination-item">></button>
+      </div>
     </div>
-    {{>productInfo}}
   </div>
+  {{>productInfo}}
 </main>

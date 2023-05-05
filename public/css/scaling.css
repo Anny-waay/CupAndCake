@@ -113,8 +113,21 @@
     .user-login input{
         font-size: 14px;
     }
-
     .user-login button{
+        font-size: 14px;
+    }
+    .user-signup {
+        width: 60%;
+        margin: 2% 20%;
+    }
+    .user-signup label{
+        font-size: 15px;
+    }
+    .user-signup input{
+        font-size: 14px;
+    }
+
+    .user-signup button{
         font-size: 14px;
     }
 }
@@ -227,6 +240,19 @@
         font-size: 14px;
     }
     .user-login button{
+        font-size: 14px;
+    }
+    .user-signup {
+        width: 60%;
+        margin: 2% 20%;
+    }
+    .user-signup label{
+        font-size: 16px;
+    }
+    .user-signup input{
+        font-size: 14px;
+    }
+    .user-signup button{
         font-size: 14px;
     }
 }
@@ -343,6 +369,20 @@
     .user-login button{
         font-size: 16px;
     }
+    .user-signup {
+        width: 50%;
+        margin: 2% 25%;
+    }
+    .user-signup label{
+        font-size: 18px;
+    }
+    .user-signup input{
+        font-size: 16px;
+    }
+
+    .user-signup button{
+        font-size: 16px;
+    }
 }
 
 @media screen and (min-width: 1150px) and (max-width: 1700px){
@@ -456,8 +496,20 @@
     .user-login input{
         font-size: 17px;
     }
-
     .user-login button{
+        font-size: 17px;
+    }
+    .user-signup {
+        width: 40%;
+        margin: 2% 30%;
+    }
+    .user-signup label{
+        font-size: 20px;
+    }
+    .user-signup input{
+        font-size: 17px;
+    }
+    .user-signup button{
         font-size: 17px;
     }
 }
@@ -579,9 +631,20 @@
     .user-login input{
         font-size: 20px;
     }
-
     .user-login button{
         font-size: 20px;
     }
-
+    .user-signup {
+        width: 40%;
+        margin: 2% 30%;
+    }
+    .user-signup label{
+        font-size: 25px;
+    }
+    .user-signup input{
+        font-size: 20px;
+    }
+    .user-signup button{
+        font-size: 20px;
+    }
 }
