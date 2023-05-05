@@ -240,6 +240,13 @@ export class ProductsController {
     return this.productService.getSpecialProducts();
   }
 
+  @ApiOkResponse({description: 'Special was successfully received.', type: [SpecialDto]})
+  @ApiNotFoundResponse({description: 'Invalid specialId'})
+  @Get('specials/:specialId')
+  async getSpecialProduct(@Param('specialId', ParseUUIDPipe) specialId: string): Promise<SpecialDto>{
+    return this.productService.getSpecialProduct(specialId);
+  }
+
   @ApiOkResponse({description: 'Special was successfully updated.', type: SpecialDto})
   @ApiBadRequestResponse({description: 'Invalid special data.'})
   @ApiNotFoundResponse({description: 'Invalid specialId.'})

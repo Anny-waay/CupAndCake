@@ -7,13 +7,13 @@ async function getFavourites(){
   });
 }
 
-async function addToFavourites(productId){
+async function addProductToFavourites(productId){
   await fetch(`/api/favourites/products/${productId}`, {
     method: 'POST'
   })
 }
 
-async function deleteFromFavourites(productId){
+async function deleteProductFromFavourites(productId){
   await fetch(`/api/favourites/products/${productId}`, {
     method: 'DELETE'
   })
@@ -23,8 +23,38 @@ async function displayFavourites(){
   try{
     let favouritesRequest = await getFavourites();
     let favourites = await favouritesRequest.json()
+
+    for (const item of favourites.specialProduct){
+      const product = favourites_template.content.cloneNode(true);
+      let picture = product.getElementById('favourites-pic')
+      picture.src = item.picture;
+      let wishlist = product.getElementById('wishlist-btn')
+      wishlist.src = "images/wishlist-red.png";
+      let h4 = product.querySelectorAll("h4");
+      h4[0].textContent = item.name;
+      let span = product.querySelectorAll("span");
+      span[1].textContent = "";
+      span[2].textContent = item.prevPrice;
+      span[3].textContent = item.newPrice;
+      let a = product.querySelectorAll("a");
+      a[0].href = `javascript:showSpecialInfo(\"${item.id}\")`;
+      let button = product.getElementById("shopping-cart-btn");
+      favourites_container.appendChild(product);
+      wishlist.addEventListener("click", async function(){
+        if (wishlist.getAttribute("src") === "images/wishlist.png"){
+          await addProductToFavourites(item.id);
+          wishlist.src = "images/wishlist-red.png"
+        }
+        else{
+          await deleteProductFromFavourites(item.id)
+          wishlist.src = "images/wishlist.png"}
+      });
+      button.addEventListener("click", async function(){
+        await addProductToShoppingCart(item.id);
+      });
+    }
+
     for (const item of favourites.catalogProduct){
-      console.log(item)
       const product = favourites_template.content.cloneNode(true);
       let picture = product.getElementById('favourites-pic')
       picture.src = item.picture;
@@ -41,11 +71,11 @@ async function displayFavourites(){
       favourites_container.appendChild(product);
       wishlist.addEventListener("click", async function(){
         if (wishlist.getAttribute("src") === "images/wishlist.png"){
-          await addToFavourites(item.id);
+          await addProductToFavourites(item.id);
           wishlist.src = "images/wishlist-red.png"
         }
         else{
-          await deleteFromFavourites(item.id)
+          await deleteProductFromFavourites(item.id)
           wishlist.src = "images/wishlist.png"}
       });
       button.addEventListener("click", async function(){

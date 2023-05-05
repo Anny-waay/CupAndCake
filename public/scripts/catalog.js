@@ -1,10 +1,14 @@
 const container = document.getElementById('products-container');
 const template_product = document.getElementById("product-template");
 const template_error = document.getElementById("error-template");
+const numberPerPage = 6;
+let pageNumber = 1;
 
-async function addProductsInfo(products){
+async function fillProductsTemplate(products){
   try {
     container.innerHTML = '';
+    let page = document.getElementById("page-number");
+    page.textContent = pageNumber;
     for (const item of products){
       const product = template_product.content.cloneNode(true);
       let picture = product.getElementById('product-pic')
@@ -14,7 +18,6 @@ async function addProductsInfo(products){
       let favouritesRequest = await getFavourites();
       if (favouritesRequest.status === 200){
         let favourites = await favouritesRequest.json();
-        console.log(favourites)
         if (favourites.catalogProduct.some(x => x.id === item.id)){
           wishlist.src = "images/wishlist-red.png";
         }
@@ -29,11 +32,11 @@ async function addProductsInfo(products){
       container.appendChild(product);
       wishlist.addEventListener("click", async function(){
         if (wishlist.getAttribute("src") === "images/wishlist.png"){
-          await addToFavourites(item.id);
+          await addProductToFavourites(item.id);
           wishlist.src = "images/wishlist-red.png"
         }
         else{
-          await deleteFromFavourites(item.id)
+          await deleteProductFromFavourites(item.id)
           wishlist.src = "images/wishlist.png"}
       });
       button.addEventListener("click", async function(){
@@ -51,10 +54,36 @@ async function addProductsInfo(products){
 async function getAllProducts(){
   container.innerHTML = '' + '<img src="../images/loading.gif" width="200" height="200" alt="mask">';
 
-  const products = await fetch(`/api/products/catalog?page=1&limit=30`)
+  let products = await fetch(`/api/products/catalog?page=${pageNumber}&limit=${numberPerPage}`)
     .then(response => response.json());
 
-  addProductsInfo(products);
+  const prev = document.getElementById('prev');
+  prev.addEventListener('click', async (e) => {
+    e.preventDefault();
+    if (pageNumber > 1) {
+      pageNumber--;
+      let products = await fetch(`/api/products/catalog?page=${pageNumber}&limit=${numberPerPage}`)
+        .then(response => response.json());
+      fillProductsTemplate(products);
+    }
+  });
+
+  const next = document.getElementById("next");
+  next.addEventListener("click", async (e) => {
+    e.preventDefault();
+    pageNumber++;
+    let response = await fetch(`/api/products/catalog?page=${pageNumber}&limit=${numberPerPage}`);
+
+    if (response.status === 200){
+      let products = await response.json();
+      fillProductsTemplate(products);
+    }
+    else{
+      pageNumber--;
+    }
+  });
+
+  fillProductsTemplate(products);
 }
 
 async function getProducts(type){
@@ -65,5 +94,32 @@ async function getProducts(type){
   })
     .then(response => response.json());
 
-  addProductsInfo(products);
+  const prev = document.getElementById('prev');
+  prev.addEventListener('click', async (e) => {
+    e.preventDefault();
+    if (pageNumber > 1) {
+      pageNumber--;
+      let products = await fetch(`/api/products/catalog/type/${type}?page=${pageNumber}&limit=${numberPerPage}`)
+        .then(response => response.json());
+      fillProductsTemplate(products);
+    }
+  });
+
+  const next = document.getElementById("next");
+  next.addEventListener("click", async (e) => {
+    e.preventDefault();
+    pageNumber++;
+    let response = await fetch(`/api/products/catalog/type/${type}?page=${pageNumber}&limit=${numberPerPage}`);
+
+    if (response.status === 200){
+      let products = await response.json();
+      fillProductsTemplate(products);
+    }
+    else{
+      pageNumber--;
+    }
+  });
+
+  fillProductsTemplate(products);
 }
+

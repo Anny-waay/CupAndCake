@@ -11,6 +11,12 @@ export class SpecialDto {
   id: string;
 
   @ApiProperty({
+    description: 'product id',
+    example: "a3hba430-f60a-41c5-9430-5275ec392499"
+  })
+  productId: string;
+
+  @ApiProperty({
     description: 'product name',
     example: "Клубничный торт"
   })
@@ -59,6 +65,7 @@ export class SpecialDto {
   isActive: boolean;
   constructor(special : Special, product : ProductDto) {
     this.id = special.id
+    this.productId = product.id
     this.name = product.name
     this.composition = product.composition
     this.weight = product.weight
