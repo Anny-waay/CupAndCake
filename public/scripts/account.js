@@ -16,7 +16,6 @@ async function loadUser(){
         p[0].textContent = "Имя: " + item.name;
         p[1].textContent = "Почта: " + item.email;
         p[2].textContent = "Телефон: " + item.phoneNumber;
-        p[3].textContent = "Пароль: ********";
         container.appendChild(user);
     } catch (e) {
         const error = template_error.content.cloneNode(true);
