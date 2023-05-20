@@ -1,16 +1,18 @@
 <section id="products-container" class="product-cards">
   <template id="product-template">
     <div class="catalog-product-wrap">
-      <a class="block-link" href=""></a>
       <div class="product-img">
         <img id="product-pic" class="product" alt="Продукт">
-        <img class="wishlist-img" src="images/wishlist.png" alt="Cердце">
+        <img id="wishlist-btn" class="wishlist-img" alt="Cердце">
       </div>
       <div class="product-description">
-        <h4></h4>
+        <div class="relative-position-container">
+          <a class="block-link" href=""></a>
+          <h4></h4>
+        </div>
         <span></span>
         <span> &#8381;</span><br>
-        <button class="btn-oval">В корзину</button>
+        <button id="shopping-cart-btn" class="btn-oval">В корзину</button>
       </div>
     </div>
   </template>
@@ -19,6 +21,8 @@
   </template>
 </section>
 
+<script src="scripts/favourites.js"></script>
+<script src="scripts/shoppingCart.js"></script>
 <script src="scripts/catalog.js"></script>
 {{#if isAllProducts}}
   <script type="text/javascript">getAllProducts();</script>

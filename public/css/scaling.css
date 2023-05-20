@@ -45,7 +45,7 @@
         width: calc(18px + 3vw);
         padding: 3px 4px 0 0;
     }
-    .img-container{
+    .relative-position-container{
         display: none;
     }
     .category-container{
@@ -107,14 +107,17 @@
         width: 50%;
         margin: 2% 25%;
     }
-    .user-login label{
+    .user-signup {
+        width: 60%;
+        margin: 2% 20%;
+    }
+    .form-label{
         font-size: 15px;
     }
-    .user-login input{
+    .form-input{
         font-size: 14px;
     }
-
-    .user-login button{
+    .form-button{
         font-size: 14px;
     }
 }
@@ -220,13 +223,17 @@
         width: 50%;
         margin: 2% 25%;
     }
-    .user-login label{
+    .user-signup {
+        width: 60%;
+        margin: 2% 20%;
+    }
+    .form-label{
         font-size: 16px;
     }
-    .user-login input{
+    .form-input{
         font-size: 14px;
     }
-    .user-login button{
+    .form-button{
         font-size: 14px;
     }
 }
@@ -333,14 +340,17 @@
         width: 50%;
         margin: 2% 25%;
     }
-    .user-login label{
+    .user-signup {
+        width: 50%;
+        margin: 2% 25%;
+    }
+    .form-label{
         font-size: 18px;
     }
-    .user-login input{
+    .form-input{
         font-size: 16px;
     }
-
-    .user-login button{
+    .form-button{
         font-size: 16px;
     }
 }
@@ -450,14 +460,17 @@
         width: 30%;
         margin: 2% 35%;
     }
-    .user-login label{
+    .user-signup {
+        width: 40%;
+        margin: 2% 30%;
+    }
+    .form-label{
         font-size: 20px;
     }
-    .user-login input{
+    .form-input{
         font-size: 17px;
     }
-
-    .user-login button{
+    .form-button{
         font-size: 17px;
     }
 }
@@ -573,15 +586,17 @@
         width: 30%;
         margin: 2% 35%;
     }
-    .user-login label{
+    .user-signup {
+        width: 40%;
+        margin: 2% 30%;
+    }
+    .form-label{
         font-size: 25px;
     }
-    .user-login input{
+    .form-input{
         font-size: 20px;
     }
-
-    .user-login button{
+    .form-button{
         font-size: 20px;
     }
-
 }

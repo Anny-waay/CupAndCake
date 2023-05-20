@@ -1,0 +1,37 @@
+<main>
+  <div class="text-columns">
+    <div class="text-columns-item order" >
+      <form class="">
+        <h2>Заказать</h2>
+        <label class="form-label" for="payment"><b>Способ оплаты</b>
+          <select class="form-input" id="payment"  name="payment">
+            <option value="CREDIT_CARD">Картой при получении</option>
+            <option value="CASH">Наличными при получении</option>
+          </select>
+        </label>
+
+        <label class="form-label" for="delivery"><b>Способ доставки</b>
+          <select class="form-input" id="delivery"  name="delivery">
+            <option value="COURIER">Курьерская</option>
+            <option value="PICKUP">Самовывоз</option>
+          </select>
+        </label>
+
+        <label class="form-label" for="address"><b>Адрес доставки</b>
+          <input class="form-input" type="text" id="address" name="address" placeholder="Введите адрес доставки" required>
+        </label>
+
+        <label class="form-label" for="deliveryDate"><b>Дата доставки</b>
+          <input class="form-input" type="date" id="deliveryDate" name="deliveryDate" required>
+        </label>
+
+        <button type="submit" class="btn-oval form-button">Оформить заказ</button>
+      </form>
+    </div>
+    <div class="text-columns-item shopping-cart">
+      <h2>Корзина</h2>
+      {{>shoppingCartProducts}}
+    </div>
+  </div>
+  {{>productInfo}}
+</main>

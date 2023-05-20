@@ -59,7 +59,7 @@ export class ShoppingCartController {
     return this.shoppingCartService.addProduct(userId, productId);
   }
 
-  @ApiOkResponse({description: 'Product was successfully deleted from favourites.'})
+  @ApiOkResponse({description: 'Product was successfully deleted from favourites.hbs.'})
   @ApiNotFoundResponse({description: 'Invalid productId.'})
   @ApiUnauthorizedResponse({description: 'User is not authorized.'})
   @ApiForbiddenResponse({description: 'For customer use only.'})

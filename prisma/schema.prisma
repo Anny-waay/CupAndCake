@@ -16,7 +16,6 @@ model User {
   name          String
   phone_number  String
   email         String         @unique
-  password      String
   favourites    Favourites[]
   shopping_cart ShoppingCart[]
 }

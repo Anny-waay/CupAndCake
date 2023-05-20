@@ -1,26 +1,26 @@
-<section id="specials-container" class="product-cards">
-  <template id='special-template'>
+<section id="favourites-container" class="product-cards">
+  <template id='favourites-template'>
     <div class="product-wrap">
       <div class="product-img">
-        <img id="special-pic" class="product" alt="Товар">
-        <img id="wishlist-btn" class="wishlist-img" alt="Сердце">
+        <img id="cart-pic" class="product" alt="Товар">
+        <img id="wishlist-btn" class="wishlist-img"  alt="Сердце">
       </div>
       <div class="product-description">
         <div class="relative-position-container">
           <a class="block-link" href=""></a>
           <h4></h4>
         </div>
+        <span></span><span> &#8381;</span>
         <span class="prev-price"></span><span class="actual-price"></span><span class="actual-price"> &#8381;</span><br>
-        <button id="shopping-cart-btn" class="btn-oval">В корзину</button>
+        <button class="shopping-cart-btn">-</button><span class="shopping-cart-number"></span><button class="shopping-cart-btn">+</button>
       </div>
     </div>
   </template>
   <template id="error-template">
-    <p>На данный момент акций нет</p>
+    <p></p>
   </template>
 </section>
-{{>productInfo}}
-<script src="scripts/specials.js"></script>
+
 <script src="scripts/favourites.js"></script>
 <script src="scripts/shoppingCart.js"></script>
-<script type="text/javascript">getSpecials();</script>
+<script type="text/javascript">displayShoppingCart();</script>

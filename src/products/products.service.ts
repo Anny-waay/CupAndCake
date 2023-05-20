@@ -306,6 +306,18 @@ export class ProductsService {
     return result
   }
 
+  async getSpecialProduct(specialId: string): Promise<SpecialDto>{
+    let special = await this.prisma.special.findUniqueOrThrow({
+      where: {
+        id: specialId
+      },
+      include: {
+        product: true
+      }
+    });
+    return new SpecialDto(special, new ProductDto(special.product))
+  }
+
   async updateSpecialProduct(productId: string, specialDto: ExistingSpecialDto): Promise<SpecialDto>{
     let special = await this.prisma.special.findUniqueOrThrow({
       where: {

@@ -22,7 +22,7 @@ export class FavouritesController {
   constructor(private readonly favouritesService : FavouritesService) {}
 
   @ApiOkResponse({description: 'Favourite products was successfully received.', type: FavouritesDto})
-  @ApiNotFoundResponse({description: 'No products in favourites now'})
+  @ApiNotFoundResponse({description: 'No products in favourites.hbs now'})
   @ApiUnauthorizedResponse({description: 'User is not authorized.'})
   @ApiForbiddenResponse({description: 'For customer use only.'})
   @Get()
@@ -40,7 +40,7 @@ export class FavouritesController {
     return this.favouritesService.getFavourites(userId);
   }
 
-  @ApiOkResponse({description: 'Product was successfully added to favourites.', type: [ProductDto]})
+  @ApiOkResponse({description: 'Product was successfully added to favourites.hbs.', type: [ProductDto]})
   @ApiNotFoundResponse({description: 'Invalid productId.'})
   @ApiUnauthorizedResponse({description: 'User is not authorized.'})
   @ApiForbiddenResponse({description: 'For customer use only.'})
@@ -59,8 +59,8 @@ export class FavouritesController {
     return this.favouritesService.addProduct(userId, productId);
   }
 
-  @ApiOkResponse({description: 'Product was successfully deleted from favourites.'})
-  @ApiBadRequestResponse({description: "Product is already in favourites"})
+  @ApiOkResponse({description: 'Product was successfully deleted from favourites.hbs.'})
+  @ApiBadRequestResponse({description: "Product is already in favourites.hbs"})
   @ApiNotFoundResponse({description: 'Invalid productId.'})
   @ApiUnauthorizedResponse({description: 'User is not authorized.'})
   @ApiForbiddenResponse({description: 'For customer use only.'})
@@ -74,13 +74,13 @@ export class FavouritesController {
     ],
   }))
   @ApiCookieAuth()
-  deleteProduct(@Session() session, @Param('product_id', ParseUUIDPipe) productId: string){
+  deleteProduct(@Session() session, @Param('productId', ParseUUIDPipe) productId: string){
     const userId = session.userId;
     return this.favouritesService.deleteProduct(userId, productId);
   }
 
-  @ApiOkResponse({description: 'Unique product was successfully added to favourites.', type: [UniqueProductDto]})
-  @ApiBadRequestResponse({description: "Product is already in favourites"})
+  @ApiOkResponse({description: 'Unique product was successfully added to favourites.hbs.', type: [UniqueProductDto]})
+  @ApiBadRequestResponse({description: "Product is already in favourites.hbs"})
   @ApiNotFoundResponse({description: 'Invalid productId.'})
   @ApiUnauthorizedResponse({description: 'User is not authorized.'})
   @ApiForbiddenResponse({description: 'For customer use only.'})
@@ -99,7 +99,7 @@ export class FavouritesController {
     return this.favouritesService.addUniqueProduct(userId, productId);
   }
 
-  @ApiOkResponse({description: 'Unique product was successfully deleted from favourites.'})
+  @ApiOkResponse({description: 'Unique product was successfully deleted from favourites.hbs.'})
   @ApiNotFoundResponse({description: 'Invalid productId.'})
   @ApiUnauthorizedResponse({description: 'User is not authorized.'})
   @ApiForbiddenResponse({description: 'For customer use only.'})
@@ -113,7 +113,7 @@ export class FavouritesController {
     ],
   }))
   @ApiCookieAuth()
-  deleteUniqueProduct(@Session() session, @Param('product_id', ParseUUIDPipe) productId: string) {
+  deleteUniqueProduct(@Session() session, @Param('productId', ParseUUIDPipe) productId: string) {
     const userId = session.userId;
     return this.favouritesService.deleteUniqueProduct(userId, productId);
   }

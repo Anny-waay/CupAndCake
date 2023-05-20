@@ -23,7 +23,7 @@ export class FavouritesDto{
   specialProduct: SpecialDto[]
 
   @ApiProperty({
-    description: 'special products in favourites',
+    description: 'special products in favourites.hbs',
     example: [
       {
         "id": "c3fba430-f60a-41c5-9430-5275ec392499",
@@ -41,7 +41,7 @@ export class FavouritesDto{
   catalogProduct: ProductDto[]
 
   @ApiProperty({
-    description: 'unique products in favourites',
+    description: 'unique products in favourites.hbs',
     example: [
       {
         "id": "c3fba430-f60a-41c5-9430-5275ec392499",

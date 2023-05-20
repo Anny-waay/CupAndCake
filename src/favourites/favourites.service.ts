@@ -19,7 +19,7 @@ export class FavouritesService {
     let uniques = await this.getUniqueProducts(userId);
 
     if (products.length == 0 && specials.length == 0 && uniques.length == 0)
-      throw new NotFoundException('No products in favourites');
+      throw new NotFoundException('No products in favourites.hbs');
     return new FavouritesDto(products, specials, uniques)
   }
 
@@ -116,7 +116,7 @@ export class FavouritesService {
       }
     })
     if (favourites != null)
-      throw new BadRequestException('This product is already in favourites')
+      throw new BadRequestException('This product is already in favourites.hbs')
     let product = await this.prisma.product.findUniqueOrThrow({
       where: {
         id: productId
@@ -155,7 +155,7 @@ export class FavouritesService {
       }
     })
     if (favourites != null)
-      throw new BadRequestException('This product is already in favourites')
+      throw new BadRequestException('This product is already in favourites.hbs')
     let product = await this.prisma.uniqueProduct.findUniqueOrThrow({
       where: {
         id: productId

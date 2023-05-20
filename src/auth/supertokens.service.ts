@@ -48,7 +48,6 @@ export class SupertokensService {
                   if (originalImplementation.signUpPOST === undefined) {
                     throw Error('Should never come here');
                   }
-                  console.log(input)
                   const roles = (await UserRoles.getAllRoles()).roles;
                   if (!roles.includes('manager')) {
                     await UserRoles.createNewRoleOrAddPermissions('manager', [
@@ -74,45 +73,27 @@ export class SupertokensService {
                       (field) => field.id === 'email',
                     ).value;
 
+                    let userRole = null;
                     if (email.includes("@cupcake.ru")) {
                       await UserRoles.addRoleToUser(response.user.id, 'manager');
-                      await prisma.user.create({
-                        data: {
-                          id: response.user.id,
-                          role: UserRole.MANAGER,
-                          name: formFields.find(
-                            (field) => field.id === 'name',
-                          ).value,
-                          phone_number: formFields.find(
-                            (field) => field.id === 'phone_number',
-                          ).value,
-                          email: email,
-                          password: formFields.find(
-                            (field) => field.id === 'password',
-                          ).value
-                        },
-                      });
+                      userRole = UserRole.MANAGER;
                     } else {
                       await UserRoles.addRoleToUser(response.user.id, 'customer');
-                      await prisma.user.create({
-                        data: {
-                          id: response.user.id,
-                          role: UserRole.CUSTOMER,
-                          name: formFields.find(
-                            (field) => field.id === 'name',
-                          ).value,
-                          phone_number: formFields.find(
-                            (field) => field.id === 'phone_number',
-                          ).value,
-                          email: email,
-                          password: formFields.find(
-                            (field) => field.id === 'password',
-                          ).value
-                        },
-                      });
+                      userRole = UserRole.CUSTOMER;
                     }
-
-
+                    await prisma.user.create({
+                      data: {
+                        id: response.user.id,
+                        role: userRole,
+                        name: formFields.find(
+                          (field) => field.id === 'name',
+                        ).value,
+                        phone_number: formFields.find(
+                          (field) => field.id === 'phone_number',
+                        ).value,
+                        email: email
+                      },
+                    });
                   }
                   return response;
                 },
