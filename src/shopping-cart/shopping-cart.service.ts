@@ -115,7 +115,8 @@ export class ShoppingCartService {
     let shoppingCart = await this.prisma.shoppingCart.findFirst({
       where:{
         user_id: userId,
-        product_id: productId
+        product_id: productId,
+        order_id: null
       }
     })
     if (shoppingCart != null){
@@ -156,7 +157,8 @@ export class ShoppingCartService {
     let shoppingCart = await this.prisma.shoppingCart.findFirstOrThrow({
       where:{
         user_id: userId,
-        product_id: productId
+        product_id: productId,
+        order_id: null
       }
     })
     if (shoppingCart.amount > 1)
@@ -181,7 +183,8 @@ export class ShoppingCartService {
     let shoppingCart = await this.prisma.shoppingCart.findFirst({
       where:{
         user_id: userId,
-        unique_product_id: productId
+        unique_product_id: productId,
+        order_id: null
       }
     })
     if (shoppingCart != null){
@@ -222,7 +225,8 @@ export class ShoppingCartService {
     let shoppingCart = await this.prisma.shoppingCart.findFirstOrThrow({
       where:{
         user_id: userId,
-        unique_product_id: productId
+        unique_product_id: productId,
+        order_id: null
       }
     })
     if (shoppingCart.amount > 1)

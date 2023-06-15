@@ -99,10 +99,6 @@
         margin: 2% 7% 2% 4%;
         font-size: 15px;
     }
-    #user-container {
-        width: 50%;
-        margin: 2% 25%;
-    }
     .user-login {
         width: 50%;
         margin: 2% 25%;
@@ -214,10 +210,6 @@
         width: 85%;
         margin: 2% 7% 2% 4%;
         font-size: 16px;
-    }
-    #user-container {
-        width: 50%;
-        margin: 2% 25%;
     }
     .user-login {
         width: 50%;
@@ -332,10 +324,6 @@
         font-size: 16px;
     }
 
-    #user-container {
-        width: 50%;
-        margin: 2% 25%;
-    }
     .user-login {
         width: 50%;
         margin: 2% 25%;
@@ -452,10 +440,6 @@
         font-size: 24px;
     }
 
-    #user-container {
-        width: 30%;
-        margin: 2% 35%;
-    }
     .user-login {
         width: 30%;
         margin: 2% 35%;
@@ -578,10 +562,6 @@
         margin: 2% 25%;
     }
 
-    #user-container {
-        width: 30%;
-        margin: 2% 35%;
-    }
     .user-login {
         width: 30%;
         margin: 2% 35%;

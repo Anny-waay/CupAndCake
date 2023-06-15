@@ -25,6 +25,8 @@ async function displayFavourites(){
     let favouritesRequest = await getFavourites();
     if (favouritesRequest.status === 401)
       throw new Error("Авторизируйтесь, чтобы добавлять товары в избраннное")
+    if (favouritesRequest.status === 404)
+      throw new Error("В избранном пока нет товаров")
     let favourites = await favouritesRequest.json()
 
     for (const item of favourites.specialProduct){

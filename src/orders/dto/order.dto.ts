@@ -44,6 +44,12 @@ export class OrderDto {
   deliveryDate: Date;
 
   @ApiProperty({
+    description: 'order status',
+    example: "CREATED"
+  })
+  status: OrderStatus;
+
+  @ApiProperty({
     description: 'special products in shopping cart',
     example: [
       {
@@ -111,6 +117,7 @@ export class OrderDto {
     this.delivery = order.delivery
     this.address = order.address
     this.deliveryDate = order.devivery_date
+    this.status = order.status
     this.catalogProduct = products
     this.specialProduct = specials
     this.uniqueProduct = uniques

@@ -1,7 +1,7 @@
 <main>
   <div class="text-columns">
-    <div class="text-columns-item order" >
-      <form class="">
+    <div class="text-columns-item create-order" >
+      <form>
         <h2>Заказать</h2>
         <label class="form-label" for="payment"><b>Способ оплаты</b>
           <select class="form-input" id="payment"  name="payment">
@@ -22,7 +22,7 @@
         </label>
 
         <label class="form-label" for="deliveryDate"><b>Дата доставки</b>
-          <input class="form-input" type="date" id="deliveryDate" name="deliveryDate" required>
+          <input class="form-input" type="datetime-local" id="deliveryDate" name="deliveryDate" required>
         </label>
 
         <button type="submit" class="btn-oval form-button">Оформить заказ</button>
@@ -34,4 +34,6 @@
     </div>
   </div>
   {{>productInfo}}
+  <script src="scripts/order.js"></script>
+  <script type="text/javascript">addFormListener();</script>
 </main>
