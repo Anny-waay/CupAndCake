@@ -1,16 +1,25 @@
 <main>
-  <div id="user-container">
-    <template id="user-template">
-      <p class="user-info"></p>
-      <p class="user-info"></p>
-      <p class="user-info"></p>
-      <button onclick="logout()" class="btn-oval">Выйти</button>
-    </template>
-    <template id="error-template">
-      <p>Что-то пошло не так...</p>
-    </template>
+<div class="text-columns">
+  <div class="text-columns-item user" >
+    <div id="user-container">
+      <template id="user-template">
+        <p class="user-info"></p>
+        <p class="user-info"></p>
+        <p class="user-info"></p>
+        <button onclick="logout()" class="btn-oval">Выйти</button>
+      </template>
+      <template id="error-template">
+        <p>Что-то пошло не так...</p>
+      </template>
+    </div>
   </div>
+  <script src="scripts/order.js"></script>
+  <script type="text/javascript" src="scripts/account.js"></script>
+  <script>loadUser()</script>
+  <div class="text-columns-item shopping-cart">
+    <h2>Заказы</h2>
+    {{>orders}}
+  </div>
+</div>
 </main>
-<script type="text/javascript" src="scripts/account.js"></script>
 {{>supertokens}}
-<script>loadUser()</script>

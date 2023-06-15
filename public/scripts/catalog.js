@@ -94,7 +94,7 @@ async function getAllProducts(){
 async function getProducts(type){
   container.innerHTML = '' + '<img src="../images/loading.gif" width="200" height="200" alt="mask">';
 
-  const products = await fetch(`/api/products/catalog/type/${type}?page=1&limit=30`, {
+  const products = await fetch(`/api/products/catalog/type/${type}?page=${pageNumber}&limit=${numberPerPage}`, {
     method: 'GET'
   })
     .then(response => response.json());

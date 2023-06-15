@@ -1,5 +1,5 @@
-const cart_container = document.getElementById('favourites-container');
-const cart_template = document.getElementById("favourites-template");
+const cart_container = document.getElementById('cart-container');
+const cart_template = document.getElementById("cart-template");
 const cart_template_error = document.getElementById("error-template");
 async function getShoppingCart(){
   return await fetch(`/api/shopping-cart`, {
@@ -25,6 +25,8 @@ async function displayShoppingCart() {
     let cartRequest = await getShoppingCart();
     if (cartRequest.status === 401)
       throw new Error("Авторизируйтесь, чтобы добавлять товары в корзину")
+    if (cartRequest.status === 404)
+      throw new Error("В корзине пока нет товаров")
     let cart = await cartRequest.json()
 
     for (const item of cart.specialProduct) {
@@ -50,7 +52,7 @@ async function displayShoppingCart() {
       let a = product.querySelectorAll("a");
       a[0].href = `javascript:showSpecialInfo(\"${item.special.id}\")`
       let buttons = product.querySelectorAll("button");
-      favourites_container.appendChild(product);
+      cart_container.appendChild(product);
       wishlist.addEventListener("click", async function() {
         if (wishlist.getAttribute("src") === "images/wishlist.png") {
           await addProductToFavourites(item.special.productId);
@@ -92,7 +94,7 @@ async function displayShoppingCart() {
       let a = product.querySelectorAll("a");
       a[0].href = `javascript:showProductInfo(\"${item.product.id}\")`
       let buttons = product.querySelectorAll("button");
-      favourites_container.appendChild(product);
+      cart_container.appendChild(product);
       wishlist.addEventListener("click", async function() {
         if (wishlist.getAttribute("src") === "images/wishlist.png") {
           await addProductToFavourites(item.product.id);
@@ -112,12 +114,12 @@ async function displayShoppingCart() {
       });
     }
   } catch (e) {
-    const error = favourites_template_error.content.cloneNode(true);
+    const error = cart_template_error.content.cloneNode(true);
     let p = error.querySelectorAll('p');
     p[0].textContent = e.message
-    while (favourites_container.firstChild) {
-      favourites_container.removeChild(favourites_container.firstChild);
+    while (cart_container.firstChild) {
+      cart_container.removeChild(cart_container.firstChild);
     }
-    favourites_container.appendChild(error);
+    cart_container.appendChild(error);
   }
 }

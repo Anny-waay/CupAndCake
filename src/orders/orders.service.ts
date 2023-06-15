@@ -22,9 +22,9 @@ export class OrdersService {
       select: {
         order_id: true,
         order: true
-      }
+      },
+      distinct: ['order_id']
     })
-
     if (orders == null || orders.length == 0)
       throw new NotFoundException('No orders')
     let result = new Array<OrderDto>();
@@ -72,28 +72,34 @@ export class OrdersService {
   }
 
   async addUserOrder(userId: string, orderDto: OrderCreateDto): Promise<OrderDto> {
-    let order = await this.prisma.order.create({
-      data:{
-        status: OrderStatus.CREATED,
-        payment: orderDto.payment,
-        delivery: orderDto.delivery,
-        devivery_date: orderDto.deliveryDate,
-        address: orderDto.address
-      }
-    })
-    await this.prisma.shoppingCart.updateMany({
-      where:{
-        user_id: userId,
-        order_id: null
-      },
-      data:{
-        order_id: order.id
-      }
-    })
-    let products = await this.shoppingCartService.getProducts(userId, order.id);
-    let specials = await this.shoppingCartService.getSpecials(userId, order.id);
-    let uniques = await this.shoppingCartService.getUniqueProducts(userId, order.id);
-    return new OrderDto(order, products, specials, uniques)
+    try{
+      await this.shoppingCartService.getShoppingCart(userId);
+      let order = await this.prisma.order.create({
+        data:{
+          status: OrderStatus.CREATED,
+          payment: orderDto.payment,
+          delivery: orderDto.delivery,
+          devivery_date: orderDto.deliveryDate,
+          address: orderDto.address
+        }
+      })
+      await this.prisma.shoppingCart.updateMany({
+        where:{
+          user_id: userId,
+          order_id: null
+        },
+        data:{
+          order_id: order.id
+        }
+      })
+      let products = await this.shoppingCartService.getProducts(userId, order.id);
+      let specials = await this.shoppingCartService.getSpecials(userId, order.id);
+      let uniques = await this.shoppingCartService.getUniqueProducts(userId, order.id);
+      return new OrderDto(order, products, specials, uniques)
+    }
+    catch{
+      throw new NotFoundException('No products in shopping cart');
+    }
   }
 
   async getOrders(status: OrderStatus): Promise<OrderDto[]> {
